@@ -1,0 +1,30 @@
+\documentclass[11pt,border=2pt]{standalone}
+\input{estilo}
+\begin{document}
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={group size=2 by 1, horizontal sep=1.6cm},
+  width=7.6cm, height=5.8cm,
+]
+\nextgroupplot[title={By time to reemployment}, width=7.1cm, xmin=1, xmax=24, xtick={1,6,12,18,24},
+  ymin=-10, ymax=5, ytick={-10,-5,0,5}, xlabel={Months after separation},
+  ylabel={Wage change (log $\times$ 100)},
+  legend to name=legsal, legend columns=3]
+\draw[fino] (axis cs:1,0) -- (axis cs:24,0);
+\addplot[g1] table[x=meses, y=g1] {\dados{salario_duracao}};
+\addplot[g2] table[x=meses, y=g2] {\dados{salario_duracao}};
+\addplot[g3] table[x=meses, y=g3] {\dados{salario_duracao}};
+\legend{High portability (G1), Medium (G2), Low (G3)}
+\nextgroupplot[title={By destination}, width=8.4cm, ybar=1pt, bar width=6.5pt,
+  xmin=0.5, xmax=4.5, xtick={1,2,3,4},
+  xticklabels={{Same\\occupation,\\same sector}, {Same\\occupation,\\other sector}, {Same\\family}, {Other\\family}},
+  x tick label style={align=center, font=\scriptsize},
+  ymin=-10, ymax=0, ytick={-10,-5,0}]
+\draw[fino] (axis cs:0.5,0) -- (axis cs:4.5,0);
+\addplot[fill=cg1, draw=none] table[x=pos, y=g1] {\dados{salario_destino}};
+\addplot[fill=cg2, draw=none] table[x=pos, y=g2] {\dados{salario_destino}};
+\addplot[fill=cg3, draw=none] table[x=pos, y=g3] {\dados{salario_destino}};
+\end{groupplot}
+\node[anchor=north] at ([yshift=-1.6cm]$(group c1r1.south)!0.5!(group c2r1.south)$) {\pgfplotslegendfromname{legsal}};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,24 @@
+\documentclass[11pt,border=2pt]{standalone}
+\input{estilo}
+\begin{document}
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={group size=2 by 1, horizontal sep=1.7cm},
+  width=7.6cm, height=5.8cm,
+  xmin=0, xmax=36, xtick={0,6,...,36},
+  xlabel={Months after separation},
+]
+\nextgroupplot[title={Reemployed (\%)}, ymin=0, ymax=80, ytick={0,20,40,60,80},
+  legend style={at={(0.97,0.05)}, anchor=south east}]
+\addplot[g1] table[x=mes, y=g1] {\dados{kmchoque_bruto}};
+\addplot[g3] table[x=mes, y=g3] {\dados{kmchoque_bruto}};
+\legend{High portability (G1), Low portability (G3)}
+\nextgroupplot[title={Difference G1 $-$ G3 (percentage points)}, ymin=-3, ymax=8, ytick={-2,0,2,4,6,8},
+  legend style={at={(0.97,0.97)}, anchor=north east}]
+\draw[fino] (axis cs:0,0) -- (axis cs:36,0);
+\addplot[g1] table[x=mes, y=dif] {\dados{kmchoque_bruto}};
+\addplot[g2] table[x=mes, y=dif] {\dados{kmchoque_homog}};
+\legend{All dismissed workers, No insurance and up to 2 minimum wages}
+\end{groupplot}
+\end{tikzpicture}
+\end{document}

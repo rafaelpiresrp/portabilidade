@@ -1,0 +1,35 @@
+\documentclass[11pt,border=2pt]{standalone}
+\input{estilo}
+\begin{document}
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={group size=3 by 1, horizontal sep=1.3cm},
+  width=5.55cm, height=5.4cm,
+  xmin=2010, xmax=2024, xtick={2010,2012,...,2024},
+  x tick label style={rotate=45, anchor=north east, inner sep=1pt},
+]
+\nextgroupplot[title={GDP (annual change, \%)}, ymin=-8, ymax=18, ytick={-5,0,5,10,15},
+  legend to name=legpib, legend columns=4]
+\fill[faixarec] (axis cs:2015,-8) rectangle (axis cs:2017,18);
+\fill[faixapan] (axis cs:2020,-8) rectangle (axis cs:2022,18);
+\draw[fino] (axis cs:2010,0) -- (axis cs:2024,0);
+\addplot[cg2, line width=0.6pt, densely dashed] table[x=x, y=agro] {\dados{ctx_pib}};
+\addplot[g1] table[x=x, y=ind] {\dados{ctx_pib}};
+\addplot[g3] table[x=x, y=serv] {\dados{ctx_pib}};
+\addplot[black, line width=1.2pt] table[x=x, y=pib] {\dados{ctx_pib}};
+\legend{Agriculture, Industry, Services, GDP}
+\nextgroupplot[title={Formal employment (millions)}, ymin=30, ymax=46, ytick={30,34,38,42,46}]
+\fill[faixarec] (axis cs:2015,30) rectangle (axis cs:2017,46);
+\fill[faixapan] (axis cs:2020,30) rectangle (axis cs:2022,46);
+\addplot[black, line width=1.0pt, mark=*, mark size=1.2pt] table[x=x, y=emp] {\dados{ctx_rais}};
+\nextgroupplot[title={Unemployment rate (\%)}, ymin=4, ymax=16, ytick={4,8,12,16}]
+\fill[faixarec] (axis cs:2015,4) rectangle (axis cs:2017,16);
+\fill[faixapan] (axis cs:2020,4) rectangle (axis cs:2022,16);
+\addplot[black, line width=1.0pt] table[x=x, y=desoc] {\dados{ctx_pnad}};
+\end{groupplot}
+\node[anchor=north, inner sep=0pt] (L) at ([yshift=-1.05cm]group c2r1.south) {\pgfplotslegendfromname{legpib}};
+\node[anchor=north, inner sep=0pt, font=\footnotesize] at ([yshift=-0.22cm]L.south)
+  {\tikz{\fill[faixarec] (0,0) rectangle (0.45,0.22);}\ Domestic recession\qquad
+   \tikz{\fill[faixapan] (0,0) rectangle (0.45,0.22);}\ Pandemic (Covid-19)};
+\end{tikzpicture}
+\end{document}

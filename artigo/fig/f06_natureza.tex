@@ -1,0 +1,18 @@
+\documentclass[11pt,border=2pt]{standalone}
+\input{estilo}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+  width=13.2cm, height=6.2cm, ybar stacked, bar width=10pt,
+  ymin=0, ymax=85, ytick={0,20,40,60,80},
+  xmin=2009.3, xmax=2023.7, xtick={2010,...,2023},
+  ylabel={Share of employment (\%)},
+  legend style={at={(0,-0.17)}, anchor=north west}, area legend,
+]
+\addplot[fill=cg1, draw=none] table[x=ano, y=cai_resto_cresce] {\dados{natureza}};
+\addplot[fill=cg1!28, draw=none] table[x=ano, y=cai_resto_cai] {\dados{natureza}};
+\legend{{Declining sector, rest of region expanding (idiosyncratic shock)},
+        {Declining sector, rest of region also declining (aggregate shock)}}
+\end{axis}
+\end{tikzpicture}
+\end{document}

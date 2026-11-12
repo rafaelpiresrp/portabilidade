@@ -1,0 +1,22 @@
+\documentclass[11pt,border=2pt]{standalone}
+\input{estilo}
+\begin{document}
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={group size=2 by 1, horizontal sep=1.7cm},
+  width=7.6cm, height=5.8cm,
+  xmin=-0.3, xmax=4.3, xtick={0,1,2,3,4}, xticklabels={All, 5, 10, 15, 20},
+  xlabel={Minimum relative decline (percentage points)},
+  every axis plot/.append style={mark=*, mark size=1.5pt},
+]
+\nextgroupplot[title={Reemployment within 6 months (\%)}, ymin=24, ymax=32, ytick={24,26,28,30,32}]
+\addplot[g1] table[x=degrau, y=ret_6m_1] {\dados{escada_B}};
+\addplot[g3] table[x=degrau, y=ret_6m_3] {\dados{escada_B}};
+\nextgroupplot[title={Reemployment within 12 months (\%)}, ymin=45, ymax=53, ytick={45,47,49,51,53},
+  legend style={at={(0.03,0.03)}, anchor=south west}]
+\addplot[g1] table[x=degrau, y=ret_12m_1] {\dados{escada_B}};
+\addplot[g3] table[x=degrau, y=ret_12m_3] {\dados{escada_B}};
+\legend{High portability (G1), Low portability (G3)}
+\end{groupplot}
+\end{tikzpicture}
+\end{document}

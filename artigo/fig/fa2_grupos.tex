@@ -1,0 +1,28 @@
+\documentclass[11pt,border=2pt]{standalone}
+\input{estilo}
+\begin{document}
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={group size=2 by 1, horizontal sep=1.7cm},
+  width=7.6cm, height=5.8cm,
+  xmin=2009, xmax=2023, xtick={2009,2011,...,2023},
+]
+\nextgroupplot[title={Group shares of employment (\%)}, ymin=29, ymax=38, ytick={30,32,34,36,38},
+  legend style={at={(0,-0.17)}, anchor=north west, legend columns=3}]
+\crises{29}{38}
+\addplot[g1] table[x=ano, y=g1] {\dados{grupos}};
+\addplot[g2] table[x=ano, y=g2] {\dados{grupos}};
+\addplot[g3] table[x=ano, y=g3] {\dados{grupos}};
+\legend{High (G1), Medium (G2), Low (G3)}
+\nextgroupplot[title={Percentiles of the index}, ymin=0.15, ymax=1, ytick={0.2,0.4,0.6,0.8,1},
+  y tick label style={/pgf/number format/fixed, /pgf/number format/precision=1,
+                      /pgf/number format/fixed zerofill}]
+\crises{0.15}{1}
+\addplot[cg1, line width=0.6pt] table[x=ano, y=p90] {\dados{percentis}} node[pos=1, anchor=west, font=\scriptsize, black] {P90};
+\addplot[cg1, line width=0.6pt] table[x=ano, y=p75] {\dados{percentis}} node[pos=1, anchor=west, font=\scriptsize, black, yshift=-2pt] {P75};
+\addplot[cg1, line width=1.1pt] table[x=ano, y=p50] {\dados{percentis}} node[pos=1, anchor=west, font=\scriptsize, black] {P50};
+\addplot[cg1, line width=0.6pt] table[x=ano, y=p25] {\dados{percentis}} node[pos=1, anchor=west, font=\scriptsize, black] {P25};
+\addplot[cg1, line width=0.6pt] table[x=ano, y=p10] {\dados{percentis}} node[pos=1, anchor=west, font=\scriptsize, black] {P10};
+\end{groupplot}
+\end{tikzpicture}
+\end{document}

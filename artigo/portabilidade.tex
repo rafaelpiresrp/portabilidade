@@ -1,0 +1,846 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[a4paper, margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{setspace}
+\usepackage[authoryear,round]{natbib}
+\setlength{\bibsep}{0pt}
+\usepackage{xcolor}
+\definecolor{citeblue}{RGB}{0, 70, 155}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{threeparttable}
+\usepackage{placeins}
+\usepackage[font=small, labelfont=bf, labelsep=period, skip=6pt]{caption}
+\captionsetup[figure]{position=top}
+\captionsetup[table]{position=top}
+\usepackage[colorlinks=true, linkcolor=citeblue, citecolor=citeblue, urlcolor=citeblue]{hyperref}
+
+\renewcommand{\figurename}{Figure}
+\renewcommand{\tablename}{Table}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.08}
+\renewcommand{\floatpagefraction}{0.8}
+\setcounter{topnumber}{3}
+\setcounter{totalnumber}{4}
+
+% citacoes inteiras em azul (autor e ano)
+\let\citetorig\citet
+\let\citeporig\citep
+\let\citealtorig\citealt
+\renewcommand{\citet}[1]{{\color{citeblue}\citetorig{#1}}}
+\renewcommand{\citep}[1]{{\color{citeblue}\citeporig{#1}}}
+\renewcommand{\citealt}[1]{{\color{citeblue}\citealtorig{#1}}}
+
+% figura com nota justificada na largura da propria figura
+\newsavebox{\caixafig}
+\newcommand{\figura}[2]{%
+  \sbox{\caixafig}{\includegraphics{#1}}%
+  \usebox{\caixafig}\par\vspace{2pt}%
+  \parbox{\wd\caixafig}{\footnotesize\setstretch{1.0}\textit{Note:} #2}}
+
+\setstretch{1.11}
+\setlength{\parskip}{3.5pt plus 1pt minus 1pt}
+\setlength{\parindent}{1.4em}
+\emergencystretch=1.5em
+
+\renewcommand{\refname}{\textcolor{citeblue}{References}}
+
+\begin{document}
+
+\begin{titlepage}
+\setstretch{1.0}
+\centering
+\vspace*{2.6cm}
+{\LARGE\bfseries Occupational Portability and Reemployment after Displacement: Aggregate and Idiosyncratic Shocks in Brazil's Regional Labor Markets\par}
+\vspace{0.45cm}
+
+\vspace{1.7cm}
+\begin{tabular}{c@{\hspace{2.4cm}}c}
+{\large Rafael Pires de Oliveira} & {\large Carlos R. Azzoni}\\[3pt]
+{\small University of São Paulo} & {\small University of São Paulo}
+\end{tabular}\par
+\vspace{0.4cm}
+{\small\href{https://github.com/rafaelpiresrp/portabilidade/blob/main/artigo/portabilidade.pdf}{Click here for the latest version}}\par
+\vspace{0.9cm}
+{\small November 2026}\par
+\vspace{1.6cm}
+\begin{minipage}{0.88\textwidth}
+\setlength{\parindent}{0pt}
+{\centering\textbf{Abstract}\par}
+\vspace{7pt}
+\small\setstretch{1.08}
+This paper measures how portable Brazilian occupations are across sectors and asks under what conditions portability helps dismissed workers return to formal employment. Using RAIS data from 2009 to 2023, we compute for each occupation the dispersion of its employment across 87 CNAE divisions and follow 53.4 million dismissals without cause, in six cohorts, through December 2023. Across the 133 intermediate regions, employment is more portable where the labor market is larger, pays higher wages and has greater allocative flexibility. On average across dismissals, and especially in the recession of 2015 and 2016, when nearly all sectors in each region shrank together, workers from portable and from specialized occupations are reemployed at the same pace. When instead the origin sector shrinks relative to the rest of the region while the rest grows, the reemployment rate of specialized workers falls and that of portable workers holds, with a gap of up to 4.4 percentage points at twelve months. This advantage is one of timing and disappears within about three years. In reentry wages, workers from portable occupations lose 5 to 6 log points less than specialized workers with the same initial wage and tenure.\par
+\vspace{9pt}
+\textbf{Keywords:} occupational portability; allocative flexibility; sectoral shocks; regional labor markets; reemployment; RAIS.\par
+\vspace{3pt}
+\textbf{JEL classification:} J24, J62, J63, J64, R23.
+\end{minipage}
+\end{titlepage}
+\setcounter{page}{1}
+
+\section{Introduction}
+
+Labor market shocks change the level of activity and also the distribution of labor demand across sectors and regions. For a worker who loses a job, the cost of these shocks is mostly the time spent searching for a new position and the wage cut that comes with reemployment \citep{jacobson1993, couch2010}. The literature distinguishes two adjustment mechanisms: wage flexibility, the capacity of real wages to fall and so contain layoffs, and allocative flexibility, the speed at which workers released by contracting activities are absorbed by growing sectors or regions \citep{layard1991, barros1997td, barros1997ppp}.
+
+Which mechanism operates depends on the type of shock. In an aggregate contraction, when labor demand falls in every activity, moving across sectors helps little because no industry is adding net jobs. Employment is preserved only if real wages fall and, when rigid contracts and legal floors such as the minimum wage prevent that, the result is higher unemployment \citep{shapiro1984, pissarides2000}. A sectoral or idiosyncratic shock, in contrast, produces declining and expanding activities within the same labor market, and the adjustment can take place by moving labor from shrinking to growing segments without a general wage reduction \citep{barros1997ppp}.
+
+Telling the two cases apart in the data is hard, and that difficulty is at the root of the debate between \citet{lilien1982} and \citet{abraham1986}. For \citet{lilien1982}, shifts in the sectoral composition of labor demand explain an important part of unemployment over the cycle. Because moving between industries takes search time and destroys specific skills, greater dispersion in sectoral growth rates would signal more reallocation effort and therefore more unemployment. \citet{abraham1986} showed that a purely aggregate shock generates the same correlation between sectoral dispersion and unemployment, provided sectors differ in their sensitivity to the cycle. If construction and manufacturing respond more to credit and interest rates than essential services do, an aggregate recession widens the gap between sectoral growth rates even when almost every activity is shedding jobs. Measured in aggregate data, the variance across sectors therefore cannot separate an economy that needs to reallocate workers from one in which nobody is hiring.
+
+A second limitation is that studies of allocative flexibility treat workers as homogeneous when they change sectors \citep{layard1991, barros1997ppp, staduto2010}, whereas a vacancy in another activity shortens unemployment only for those who can use their skills outside the industry they came from. Much of the human capital accumulated on the job is specific to the occupation and to the tasks the worker performs \citep{poletaev2008, kambourov2009, gathmann2010}, and switching occupations while unemployed means losing part of that learning and accepting a substantially lower wage \citep{longhi2013, wiczer2015, carrillotudela2023}. Dismissed workers therefore look first for a job in their own occupation. Hence the interest in \emph{occupational portability}, which \citet{darougheh2022, darougheh2024} calls \emph{broadness} and measures by the dispersion of each occupation's employment across the sectors of the economy. Workers in occupations found in many activities, such as office clerks, administrative assistants, stock clerks or production line feeders, can change sectors without changing occupations when their industry shrinks. Workers in occupations concentrated in a few industries, such as retail salespeople, cashiers, gas station attendants or nursing technicians, depend on the recovery of the sector they came from.
+
+Brazil between 2009 and 2023 is a good setting in which to bring the occupational portability of \citet{darougheh2024} together with the discussion in \citet{lilien1982} and \citet{abraham1986} on the nature of shocks. The period saw structural change, including the declining weight of manufacturing \citep{rodrik2016}, the regional deconcentration of production \citep{saboia2013} and the growth of services \citep{jacinto2015}, and it saw two crises with different sectoral profiles \citep{corseuil2020}. The recession of 2015 and 2016 was a broad aggregate shock. Fiscal and credit tightening reduced employment at the same time in manufacturing, construction, retail and services, which left little room for adjustment through reallocation across sectors. The Covid-19 pandemic, in 2020 and 2021, hit sectors very unevenly. In-person services, accommodation and food services fell sharply, while agribusiness, health, logistics, information technology and administrative services that could move to remote work maintained or increased hiring \citep{corseuil2020}.
+
+\hyperref[fig:contexto]{Figure~\ref*{fig:contexto}} shows the two crises in aggregate data.\footnote{GDP: IBGE Quarterly National Accounts, \href{https://sidra.ibge.gov.br/tabela/5932}{SIDRA table 5932}. Unemployment rate: Continuous PNAD, \href{https://sidra.ibge.gov.br/tabela/4099}{SIDRA table 4099}. Formal employment: RAIS, authors' calculations, with documentation at the Ministry of Labor's \href{https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/acoes-e-programas/programas-projetos-acoes-obras-e-atividades/estatisticas-trabalho/microdados-rais-e-caged}{Programa de Disseminação das Estatísticas do Trabalho}.} In the recession, GDP fell 3.5\% in 2015 and 3.3\% in 2016, with industry and services declining together. Private formal employment lost 3.1 million jobs between the end of 2014 and the end of 2017, and the unemployment rate went from 6.6\% to 13.9\%. In the pandemic, GDP fell 3.3\% in 2020, a drop similar to that of each recession year, and grew 4.8\% in 2021. Formal employment, however, barely declined over 2020 and gained 7.5 million jobs in the following three years, and unemployment, after reaching 14.9\%, was back at 7.4\% by the end of 2023.
+
+\begin{figure}[!htb]
+\centering
+\caption{Economic activity and the labor market in Brazil, 2010 to 2023}
+\label{fig:contexto}
+\figura{fig/f01_contexto.pdf}{Left panel: change in the volume of GDP and of the three major sectors accumulated over four quarters, relative to the previous four quarters. Middle panel: private formal jobs active on December 31 of each year. Right panel: quarterly unemployment rate of persons aged 14 and over. The shaded bands mark 2015 and 2016 and 2020 and 2021, the years in which the workers of the crisis cohorts in this paper were dismissed. Sources: IBGE (Quarterly National Accounts and Continuous PNAD) and RAIS.}
+\end{figure}
+
+
+The first question of the paper is whether workers dismissed without cause from more portable occupations return to formal employment faster, and preserve their wages better, than workers from specialized occupations. The second is whether this advantage holds for any dismissal or depends on the nature of the local shock. In particular, we test whether portability speeds up reemployment only when the origin sector suffers an idiosyncratic contraction while the other sectors in the same region keep growing. The third is why, on average across dismissals in Brazil, more portable workers do not appear to return sooner. Here we assess the role of high turnover within the origin sector \citep{gonzaga2003} and of the wage compression exerted by the minimum wage floor, with access to unemployment insurance \citep{gerard2021} treated as a control.
+
+To answer these questions, we follow through December 2023 the 53.37 million dismissals without cause in six RAIS cohorts (2014, 2015, 2016, 2019, 2020 and 2021). On the unconditional average of the cohorts, portable and specialized occupations return to formal employment at the same speed. Outside severe sectoral shocks, specialized workers in retail and services are quickly reabsorbed by the normal turnover of their own sector. The picture changes when we look only at workers who left a sector that shrank more than the rest of the region, in local markets where the other sectors were growing. In these cases portability brings forward the return to formal work, through moves to other sectors, and the twelve-month reemployment gap between the high- and low-portability groups rises from $-0.3$ to 4.4 percentage points as the relative decline of the sector deepens. With the initial distribution of wages and tenure equalized by reweighting \citep{dfl1996}, the gap goes from $-0.3$ to 3.6 points. This is an advantage in timing, and it disappears within about three years. In reentry wages, workers dismissed from portable occupations lose 5 to 6 log points less than those from specialized occupations with the same initial wage and tenure, whether or not the origin sector was hit by a shock.
+
+\section{Literature Review}
+
+The distinction between wage flexibility and allocative flexibility comes from \citet{layard1991} and was applied to Brazil by \citet{amadeo1994}, \citet{barros1997td} and \citet{barros1997ppp}. Consider an economy in equilibrium hit by a negative aggregate shock. If all sectors have the same wage elasticity of labor demand, moving workers between industries does not restore the level of employment, and the adjustment depends on a uniform reduction in real wages. If elasticities differ, the same shock induces some migration from the more sensitive to the less sensitive sector until pay is equalized in the new equilibrium, which is the source of the identification problem raised by \citet{abraham1986} against the sectoral shifts hypothesis of \citet{lilien1982}. In any case, under aggregate shocks the relevant channel is the wage channel, and with real wages rigid in the short run the result is more unemployment \citep{shapiro1984, mortensen1994, pissarides2000}.
+
+Under an idiosyncratic shock, which contracts some sectors and expands others, the adjustment comes to depend on allocative flexibility \citep{barros1997ppp}. If workers move without friction from declining to expanding activities, the market absorbs the shock with no change in the average equilibrium wage, and wage flexibility is left to cushion the immediate loss of jobs in the affected sector and to signal the change in relative prices. To measure this reallocation capacity in Brazilian regions, \citet{barros1997ppp} and \citet{staduto2010} combine sectoral turbulence, which captures the share of jobs reallocated across sectors, with mismatch, given by the weighted variance of sectoral growth rates around the regional mean, and define allocative flexibility as the ratio of the two. A more flexible region absorbs sectoral turbulence without the adjustment depending on the collapse of a few industries, which reduces the efficiency loss in matching unemployed workers to vacancies modeled by \citet{sahin2014}.
+
+Moving from the aggregate analysis to the trajectory of the individual worker requires taking the specificity of human capital into account. \citet{becker1962} and \citet{topel1991} divide skills into general and firm-specific capital. Later empirical work showed that much of the wage loss after dismissal comes from changing sectors \citep{neal1995, parent2000} and, even more, from changing occupations \citep{kambourov2009, sullivan2010}. In the estimates of \citet{kambourov2009}, returns to firm and industry tenure decline once occupational experience is controlled for, which indicates that productive skills follow the occupation. In the task-based approach of \citet{autor2003}, \citet{poletaev2008}, \citet{gathmann2010}, \citet{autor2013} and \citet{deming2017}, each occupation bundles a set of cognitive, social and motor tasks, and the wage loss at reemployment is larger the more the tasks of the new occupation differ from those of the old one. For Brazil, \citet{maciente2013}, \citet{maciente2019} and \citet{junior2021} matched the skill requirements in O*NET to the Brazilian Classification of Occupations (CBO) in RAIS. Formal employment has a strong presence of operational occupations intensive in motor tasks, but cognitive and interpersonal tasks have gained share and make it easier to adapt to changes in production.
+
+Because switching occupations out of unemployment usually means occupational and wage downgrading \citep{longhi2013, wiczer2015, carrillotudela2023}, dismissed workers try to keep their occupation while looking for jobs in other sectors. This behavior is the basis of the occupational breadth or portability indicator (\emph{broadness}) of \citet{darougheh2022, darougheh2024}, computed as the complement of the Herfindahl-Hirschman index of the sectoral distribution of each occupation's employment. In the model of \citet{darougheh2024}, being in a portable occupation has two opposing effects when a negative sectoral shock hits. Through the \emph{direct reallocation effect}, a worker released from a declining sector competes for jobs in the same occupation in sectors that are still hiring and leaves unemployment sooner than specialized coworkers dismissed from the same firm. Through the \emph{reallocation externality}, or congestion, the arrival of these workers increases competition for the jobs of that occupation in the destination sectors. For this reason, according to \citet{darougheh2024}, crises concentrated in specialized occupations raise mismatch in the cross-section of workers by more, although congestion makes the response of aggregate unemployment similar across different recessions.
+
+Occupational portability does not track schooling, and there are low-portability occupations at both ends: college-educated professionals in careers specific to health or education on one side, and retail salespeople, gas station attendants and city bus drivers on the other. Administrative and operational jobs requiring secondary or basic schooling, such as office clerks, administrative assistants, receptionists, stock clerks and production line feeders, are highly portable because they perform activities needed in almost every industry \citep{gathmann2010, darougheh2024}. When a worker in a specialized occupation loses a job because the sector contracts, the lack of equivalent vacancies in other industries often leads to accepting positions that require less schooling, which corresponds to the overeducation studied by \citet{sicherman1991} and documented for Brazil by \citet{marioni2021}.
+
+The displaced-worker literature shows that wage losses after dismissal are larger when the origin sector and the local economy contract at the same time \citep{jacobson1993, carrington1993, couch2010}, and \citet{davis2011} find much larger earnings losses for workers dismissed in recessions than for those dismissed in expansions. In Nash bargaining models and in the wage curve of \citet{blanchflower1994, blanchflower2005}, estimated for Brazil by \citet{barros1997td}, a worker's bargaining power depends on the alternatives available outside the firm. Workers in less portable occupations find fewer options in other sectors that do not require giving up occupational human capital. Their reservation wage falls more after a negative local shock, and their reentry wage is more sensitive to the crisis than that of portable workers.
+
+In Brazil the rules of formal employment also matter, starting with the incentives created by the FGTS severance penalty, which helped keep turnover high in the formal market, especially in retail and services \citep{barros2000, gonzaga2003, ponczek2022}. In periods of sectoral stability, this turnover allows specialized workers in retail or services to find another job quickly in their own sector, with no need to move to another industry. Unemployment insurance, which pays 3 to 5 monthly installments to workers dismissed without cause after at least 6 months on the job, reduces entry into new formal employment while benefits are being paid and produces a jump in rehiring right after they end \citep{gerard2021}. Because workers dismissed from portable occupations have, on average, higher wages and longer tenure than those from specialized operational occupations, estimating the effect of portability on unemployment duration and on the reentry wage, which in formal employment is bounded below by the minimum wage, requires equalizing the initial distribution of wages and of unemployment insurance eligibility across groups \citep{dfl1996}.
+
+The possibility of changing sectors also depends on the productive structure of each region. The localization economies of \citet{marshall1890}, which arise from the regional concentration of firms in the same industry, make it easier for specialized workers to find new jobs when the shock hits an isolated firm \citep{figueiredo2009}, but they widen local mismatch when the whole industry of the region goes into crisis. Urbanization economies and sectoral diversity, associated with regional growth and stability \citep{frenken2007, ellison2010}, complement occupational portability, since a cross-cutting occupation allows a worker to change industries without changing cities only if several sectors are present in the same region \citep{jarafigueroa2018}. Reallocation across regions and sectors is, in addition, slow in Brazil. \citet{dixcarneiro2017} show that the effects of trade liberalization on formal employment and wages in the most exposed regions kept growing for twenty years. In a country where the loss of industrial share \citep{rodrik2016} and the spread of production to the interior \citep{saboia2013} went together with the growth of services \citep{jacinto2015}, comparing the generalized recession of 2015 and 2016 with the sectorally concentrated shock of the pandemic \citep{corseuil2020} provides the variation needed to test when portability protects the dismissed worker.
+
+\section{Data}
+\label{sec:dados}
+
+\subsection{RAIS and the cohorts of dismissed workers}
+
+We use the identified microdata of the Relação Anual de Informações Sociais (RAIS), from the Ministry of Labor and Employment, for all 27 states from 2009 to 2023.\footnote{RAIS documentation and the microdata without worker identifiers are available from the \href{https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/acoes-e-programas/programas-projetos-acoes-obras-e-atividades/estatisticas-trabalho/microdados-rais-e-caged}{Programa de Disseminação das Estatísticas do Trabalho} of the Ministry of Labor and Employment. The classifications are \href{https://concla.ibge.gov.br/documentacao/cronologia/cbo}{CBO 2002} and \href{https://concla.ibge.gov.br/classificacoes/por-tema/atividades-economicas/classificacao-nacional-de-atividades-economicas}{CNAE 2.0}, documented by IBGE's National Classification Commission. The code and the aggregated results used in this paper are available at \href{https://github.com/rafaelpiresrp/portabilidade}{github.com/rafaelpiresrp/portabilidade}; the identified microdata are restricted and are not included.} RAIS covers every formal establishment in the country and makes it possible to follow each worker over time through an individual identifier (CPF or PIS/PASEP). For each job we observe the occupation in the Brazilian Classification of Occupations (CBO 2002, 6 digits), the sector in the National Classification of Economic Activities (CNAE 2.0, 2 digits), the municipality of the establishment, its legal nature, the worker's age, sex and schooling, tenure, the average monthly wage in multiples of the minimum wage, and the month and reason of separation. We keep the formal private sector and exclude jobs in the direct public administration, autonomous agencies, public foundations and the military. Tenured civil servants have job stability and are not subject to dismissal without cause, so including them would distort both the sectoral dispersion of occupations and the analysis of unemployment risk.\footnote{We keep jobs whose legal nature code is above 2020. This cutoff excludes the public administration and state-owned companies and keeps mixed-capital companies. In building the cohorts, we drop records without a worker identifier. We use all occupations with a valid six-digit CBO 2002 code, 2,471 of them in 2010, and all sectors with a valid CNAE 2.0 division ($S = 87$). Municipalities are mapped to the 133 Intermediate Geographic Regions of IBGE's 2017 territorial division.} The occupational portability and regional flexibility indicators are computed on the stock of private jobs active on December 31 of each year.
+
+To study what happens after job loss, we follow the cohort design of the displaced-worker literature \citep{jacobson1993, neal1995, gerard2021}. We select all workers dismissed without cause at the employer's initiative in six years: 2014 (the year before the domestic recession), 2015 and 2016 (the depth of the recession), 2019 (the year before the pandemic), and 2020 and 2021 (the pandemic shock and the reopening). Restricting to this type of separation lets us measure reemployment after an involuntary job loss, without mixing it with quits or internal transfers.\footnote{We use RAIS separation code 11, termination without cause at the employer's initiative, with the month of separation reported. We leave out dismissal for cause (code 10), end of contract (12), separations initiated by the employee (20 and 21), retirements, and transfers between establishments (30 and 31), which are record changes with no spell of unemployment.} We impose two further conditions in the year of dismissal. The worker must have had a single dismissal without cause in that year and cannot have another private formal job active in the month of separation. A worker who keeps another job is not unemployed, and with more than one dismissal in the same year search time cannot be assigned to each of them.\footnote{A job counts as active in the month of dismissal if the hiring date is in or before that month and the separation, if any, is in that month or later. The rule also covers jobs started in the month of dismissal itself, so the fastest reemployment we observe occurs in the following month. A worker dismissed in March and hired by another firm in July stays in the cohort, with reemployment in four months.}
+
+\hyperref[fig:coortes]{Figure~\ref*{fig:coortes}}, in \hyperref[ap:coortes]{Appendix~\ref*{ap:coortes}}, traces the construction of the cohorts and the outcomes observed after dismissal, and \hyperref[tab:coortes]{Table~\ref*{tab:coortes}} gives the counts for each year. In 2014, 51.7 million people held some private job, 11.0 million were dismissed without cause exactly once and 10.2 million had no other active job in the month of separation. The second condition, together with the requirement of a valid occupation code, removes about 7\% of dismissed workers in the 2014 to 2016 cohorts and 1\% to 3\% in the 2019 to 2021 cohorts. Together, the six cohorts contain 53.37 million dismissals.
+
+\begin{table}[!htb]
+\centering
+\caption{Construction of the cohorts of workers dismissed without cause}
+\label{tab:coortes}
+\input{tab/t_coortes}
+\end{table}
+
+We index by $0$ the characteristics of the lost job and by $1$ those of the first private formal job after dismissal, and we follow the worker in all RAIS files from the month after dismissal through December 2023 ($\bar{T}$).\footnote{When there is more than one hire in the month of return $t_{i,1}$, job $1$ is the first one recorded in the data, with no wage criterion.} Let $t_{i,0}$ be the month of dismissal of worker $i$ (in sector $s_{i,0}$, occupation $o_{i,0}$, region $r_{i,0}$, with wage $w_{i,0}$ and tenure $\tau_{i,0}$) and $t_{i,1}$ the month of the first formal rehire (in sector $s_{i,1}$, occupation $o_{i,1}$ and wage $w_{i,1}$). There are four outcomes:
+\begin{equation}
+D_i = t_{i,1} - t_{i,0}, \qquad R_{i,h} = \mathbf{1}\big\{D_i \le h\big\}, \qquad M_i = \mathbf{1}\big\{s_{i,1} \neq s_{i,0}\big\}, \qquad \Delta \ln w_i = \ln w_{i,1} - \ln w_{i,0}.
+\label{eq:outcomes}
+\end{equation}
+In \hyperref[eq:outcomes]{Equation~(\ref*{eq:outcomes})}, duration $D_i$ is the number of months until reemployment in the formal market. Because the panel ends in December 2023, a worker dismissed in 2014 is followed for 108 to 119 months, depending on the month of dismissal, and one dismissed in 2021 for 24 to 35 months. To compare the six cohorts over the same horizon, we use the probability of return within fixed windows, $R_{i,h}$, with $h \in \{6, 12, 24\}$ months. The sector change indicator $M_i$, combined with whether the occupation is kept ($o_{i,1} = o_{i,0}$), is used to test the mechanism of \citet{darougheh2024}, that is, whether portable workers return faster because they are able to enter another CNAE division ($s_{i,1} \neq s_{i,0}$) when the origin sector shrinks. The change $\Delta \ln w_i$ measures the wage cost of the transition.
+
+\subsection{Occupational portability}
+\label{sec:indice}
+
+To measure how spread out each occupation $o$ is across the $S = 87$ private divisions of CNAE 2.0, we use the index of \citet{darougheh2022, darougheh2024}. Let $E_{o,s,t}$ be the number of active jobs in occupation $o$ and sector $s$ in year $t$, and $p_{o,s,t} = E_{o,s,t}/E_{o,t}$ the fraction of the occupation employed in sector $s$, with $E_{o,t} = \sum_{s=1}^S E_{o,s,t}$. The portability index is the complement of the Herfindahl-Hirschman index:
+\begin{equation}
+m_{o,t} = 1 - \sum_{s=1}^{S} p_{o,s,t}^2, \qquad \text{with } p_{o,s,t} = \frac{E_{o,s,t}}{E_{o,t}}.
+\label{eq:portabilidade}
+\end{equation}
+By \hyperref[eq:portabilidade]{Equation~(\ref*{eq:portabilidade})}, $m_{o,t} \in [0, 1 - 1/S]$ is the probability that two jobs drawn at random in occupation $o$ are in different sectors. An occupation concentrated in a single sector has $m_{o,t} = 0$, and an occupation spread evenly across dozens of sectors has $m_{o,t}$ close to 1.
+
+The classification of dismissed workers must not be affected by the shock itself. If construction lays off massively in 2015, an occupation split between construction and services changes its index in that year only because one of the sectors shrank. We therefore fix each occupation's index at its 2010 value ($m_{o,2010}$), before both crises.\footnote{For occupations with no active job in 2010, we use $m_{o,t}$ from the first year in which the CBO code appears in the data.} Because most formal employment is in high-portability occupations, splitting the 0 to 1 interval into fixed bands would leave the lower groups with few observations. We use instead the terciles of the distribution of $m_{o,2010}$ weighted by 2010 jobs: Group 1 (high portability, $m_{o,2010} > 0.8674$), Group 2 (medium portability, $0.5724 < m_{o,2010} \le 0.8674$) and Group 3 (low portability, $m_{o,2010} \le 0.5724$). Each group holds about one third of formal employment in the base year (33.3\%, 32.9\% and 33.8\%).
+
+\hyperref[fig:dist]{Figure~\ref*{fig:dist}} shows the distribution of 2010 employment by the index. Half of the 34.3 million jobs are in occupations with an index above 0.773 and a quarter in occupations above 0.911, which means that most Brazilian formal employment is in occupations that exist in many sectors. The isolated peak near 0.42 corresponds to retail salespeople, the largest occupation in the country. With such a skewed distribution, the employment terciles have very different widths, and the low-portability group covers more than half of the range of the index.
+
+\begin{figure}[!htb]
+\centering
+\caption{Distribution of formal employment by the portability index, 2010}
+\label{fig:dist}
+\figura{fig/f02_distribuicao.pdf}{Each bar is the share of private jobs active on December 31, 2010 in occupations whose index (\hyperref[eq:portabilidade]{Equation~(\ref*{eq:portabilidade})}) falls in a bin of width 0.025. The dashed lines are the employment tercile cutoffs (0.572 and 0.867) that define the three groups used in the paper. Source: RAIS, authors' calculations.}
+\end{figure}
+
+\hyperref[tab:ocupacoes]{Table~\ref*{tab:ocupacoes}} helps clarify what the index measures. The fifteen occupations listed appear in more than 80 of the 87 CNAE divisions, so presence in many sectors alone does not distinguish them, and what matters more is how concentrated they are. Retail salespeople have jobs in every division, but nearly all of them in retail trade, and so they depend on retail trade to be reemployed. Office clerks are in the same divisions with employment spread evenly. The measure should also not be confused with skill level. Aggregating by CBO major group, administrative services (0.80) and repair and maintenance (0.80) have the highest indices, while professionals in the sciences and arts, where college education predominates, stand at 0.62, below mid-level technicians (\hyperref[tab:gg]{Table~\ref*{tab:gg}}). \hyperref[ap:indice]{Appendix~\ref*{ap:indice}} shows that the average index moved little between 2009 and 2023, with a decline during the recession, which supports the choice of fixing the classification in 2010.
+
+\begin{table}[!htb]
+\centering
+\caption{Largest occupations in each portability group, 2010}
+\label{tab:ocupacoes}
+\input{tab/t_ocupacoes}
+\end{table}
+
+Workers dismissed from high-portability occupations earned on average 2.29 minimum wages, against 1.64 in the low-portability group, and had longer tenure (33 months against 29) and more schooling. Because wages and tenure affect the speed of reemployment on their own, the direct comparison between groups mixes the effect of the occupation with that of the worker's position in the wage distribution, a problem addressed by the reweighting in \hyperref[sec:estrategia]{Section~\ref*{sec:estrategia}}. The middle group is the largest among dismissed workers (36\% of the total), although it holds one third of the stock of employment, a sign of higher turnover in its occupations.
+
+\begin{table}[!htb]
+\centering
+\caption{Characteristics of dismissed workers by portability group}
+\label{tab:perfil}
+\input{tab/t_perfil}
+\end{table}
+
+\subsection{Regional labor markets}
+\label{sec:regioes}
+
+To describe the local labor market these workers are in, we compute for each region $j$ (the 133 intermediate regions and the 27 states) the indices of turbulence ($T_j$), mismatch ($D_j$) and allocative flexibility ($F_j$) of \citet{layard1991} and \citet{barros1997ppp} between $t_0$ and $t_1$:
+\begin{equation}
+T_j = \frac{1}{2} \sum_{s=1}^{S} \big|\theta_{j,s,t_1} - \theta_{j,s,t_0}\big|, \qquad D_j = \sum_{s=1}^{S} \theta_{j,s,t_0}\, \big(g_{j,s} - g_j\big)^2, \qquad F_j = \frac{T_j}{D_j},
+\label{eq:barros_tdf}
+\end{equation}
+where $\theta_{j,s,t} = E_{j,s,t}/E_{j,t}$ is the share of sector $s$ in the employment of region $j$ in year $t$, $g_{j,s} = E_{j,s,t_1}/E_{j,s,t_0} - 1$ is the growth of the sector and $g_j = E_{j,t_1}/E_{j,t_0} - 1$ is the growth of the region. Turbulence is the share of employment that changed sectors, in net terms, between $t_0$ and $t_1$. Since $\theta_{j,s,t_1} - \theta_{j,s,t_0} = \theta_{j,s,t_0}(g_{j,s} - g_j)/(1+g_j)$, it equals the sum of absolute deviations of sectoral growth, weighted by initial shares and divided by $1+g_j$. Mismatch is the variance of sectoral growth around regional growth, with the same weights. Sectors with no employment in $t_0$ enter $T_j$ and do not enter $D_j$.\footnote{Because RAIS reports the stock of formal jobs rather than the unemployment rate by sector, we follow \citet{barros1997ppp} and \citet{staduto2010} and measure mismatch $D_j$ by the weighted variance of sectoral growth rates around the regional mean.} We compute the three indices for the 2014 to 2019 and 2019 to 2022 windows. $T_j$ gives the size of the change in the region's employment structure, $D_j$ indicates whether that change came from the disproportionate collapse of a few sectors, and the ratio $F_j$ is higher in regions that redistributed labor across activities with less friction.
+
+The 133 intermediate regions are labor markets of very unequal size.\footnote{We use IBGE's 2017 \href{https://www.ibge.gov.br/geociencias/organizacao-do-territorio/divisao-regional/15778-divisoes-regionais-do-brasil.html}{Regional Division of Brazil into Immediate and Intermediate Geographic Regions}. The map boundaries come from IPEA's \href{https://github.com/ipeaGIT/geobr}{geobr} package.} In 2014, the median region had 123 thousand private formal jobs, while the São Paulo region had 6.9 million, and the average wage ranged from 1.4 to 5.4 minimum wages. Employment and wages are concentrated in the Center-South, with exceptions in the North linked to Manaus and to mining in Pará (\hyperref[fig:mapaempsal]{Figure~\ref*{fig:mapaempsal}}).
+
+\begin{figure}[!htb]
+\centering
+\caption{Private formal employment and average wage in the intermediate regions, 2014}
+\label{fig:mapaempsal}
+\figura{fig/f03_mapa_emp_sal.pdf}{Private jobs active on December 31, 2014 and the average wage of those jobs, in minimum wages. Classes are quintiles of the 133 intermediate regions. Dark lines are state borders. Source: RAIS, authors' calculations.}
+\end{figure}
+
+Average portability of employment has a similar distribution (left panel of \hyperref[fig:mapaportabflex]{Figure~\ref*{fig:mapaportabflex}}). It varies less across regions than across occupations, from 0.51 to 0.72, with the highest values in São Paulo, Paraná, Santa Catarina and part of Minas Gerais and the lowest in the interior of the Northeast, in Tocantins and in the southern half of Rio Grande do Sul. Regions with more portable employment are larger and pay more, with a correlation of 0.71 between average portability and the log of the average wage and of 0.57 with the log of employment (\hyperref[tab:corr]{Table~\ref*{tab:corr}}).
+
+\begin{figure}[!htb]
+\centering
+\caption{Average portability and allocative flexibility in the intermediate regions}
+\label{fig:mapaportabflex}
+\figura{fig/f04_mapa_portab_flex.pdf}{Left panel: average of the 2010 portability index of occupations, weighted by the region's private jobs in 2014. Right panel: ratio of sectoral turbulence to mismatch between 2014 and 2019 (\hyperref[eq:barros_tdf]{Equation~(\ref*{eq:barros_tdf})}); quintiles are computed pooling the 2014 to 2019 and 2019 to 2022 windows, and the map for the second window is in \hyperref[ap:regioes]{Appendix~\ref*{ap:regioes}}. Source: RAIS, authors' calculations.}
+\end{figure}
+
+Allocative flexibility has a similar geography (right panel). Between 2014 and 2019, in the median region, 9\% of jobs changed sectors in net terms and the ratio of turbulence to mismatch was 0.79. The most flexible regions are large centers in the Southeast and South, such as Rio de Janeiro, Porto Alegre, Curitiba, Campinas and São Paulo, all with a ratio above 2.5, and the least flexible are mostly small regions in the North and Northeast.
+
+It is in this relationship that the allocative flexibility literature and the portability literature meet. Flexibility measures how much employment a region manages to move across sectors per unit of dispersion in sectoral growth, and portability measures how much of the local workforce is in occupations that exist in several sectors, which should make that movement easier. In \hyperref[fig:regioes]{Figure~\ref*{fig:regioes}}, the two measures move together, with median flexibility of 1.41 in the third of regions with the most portable employment, against 0.63 in the third with the least, and wages 36\% higher (2.36 against 1.74 minimum wages). The regions that combine high portability and high flexibility are almost all large and in the top third by wage.
+
+\begin{figure}[!htb]
+\centering
+\caption{Portability, allocative flexibility and employment change in the recession}
+\label{fig:regioes}
+\figura{fig/f05_regioes.pdf}{Each circle is one of the 133 intermediate regions, with area proportional to private formal employment in 2014 and color by third of the regional distribution of average wages. In the right panel, three regions with changes outside the axis range are not shown. Source: RAIS, authors' calculations.}
+\end{figure}
+
+\begin{table}[!htb]
+\centering
+\caption{Correlations between regional indicators}
+\label{tab:corr}
+\input{tab/t_correlacoes}
+\end{table}
+
+This association, however, is partly due to region size. Flexibility is more correlated with the size of the region (0.64 and 0.71 with log employment in the two windows) than with portability (0.49 and 0.50), and the partial correlation between flexibility and portability, net of size, falls to 0.20 in the 2014 to 2019 window and to 0.04 in the 2019 to 2022 window. Large markets have larger sectors, less extreme growth rates and more employment in cross-cutting occupations. In addition, flexibility is measured at the aggregate level and does not say who moved, since a region can reallocate employment across sectors by hiring people other than those it dismissed. Knowing whether portability helps the worker who lost a job requires following the worker, which is what we do in the following sections.
+
+The right panel of \hyperref[fig:regioes]{Figure~\ref*{fig:regioes}} also shows that the regions with the most portable employment were the ones that lost the most jobs in the recession. Employment fell 8.6\% between 2014 and 2016 in the third of regions with the highest portability and 3.6\% in the third with the lowest, and the correlation between the two variables is $-0.50$. A portable workforce did not prevent job losses in a shock that hit all sectors of these regions, a point we return to in \hyperref[sec:choques]{Section~\ref*{sec:choques}}.
+
+\FloatBarrier
+\section{Empirical Strategy}
+\label{sec:estrategia}
+
+In the first stage of the estimation, we look at the average over all dismissals in each cohort, without separating the type of local shock. For each of the six cohorts we estimate by ordinary least squares linear models for the probability of return within 12 and 24 months and for the wage change ($Y_i \in \{R_{i,12}, R_{i,24}, \Delta \ln w_i\}$):
+\begin{equation}
+Y_{i,o,s,m} = \beta\, m_{o,2010} + \mathbf{X}_i'\boldsymbol{\gamma} + \delta \ln w_{i,0} + \alpha_{s_0} + \mu_{m_0} + \varepsilon_{i,o,s,m},
+\label{eq:mpl_feols}
+\end{equation}
+where $\mathbf{X}_i$ collects age, sex, tenure $\tau_{i,0}$ and schooling, $\ln w_{i,0}$ is the log of the initial wage and $\alpha_{s_0}$ and $\mu_{m_0}$ are origin sector and origin municipality fixed effects, with standard errors clustered by origin sector. We also estimate a Cox duration model stratified by origin sector, $\lambda(d \mid m_{o,2010}, \mathbf{X}_i, \ln w_{i,0}, s_0) = \lambda_{0,s_0}(d)\exp(\beta_{\text{Cox}}\, m_{o,2010} + \mathbf{X}_i'\boldsymbol{\gamma} + \delta \ln w_{i,0})$, which uses the whole monthly search trajectory $D_i$ and includes workers not reemployed by the end of the data, in 2023.\footnote{The linear regressions use all dismissed workers in each cohort (7.58 to 10.22 million). Specifications with $\ln w_{i,0}$ are restricted to workers with a positive origin wage. The Cox model uses a random sample of 500 thousand workers per cohort, drawn with a fixed seed.} These regressions pool dismissals that occurred in aggregate recessions, when there are no vacancies in other sectors (as in \citealt{abraham1986}), with routine dismissals in sectors that keep rehiring their own specialists, which helps explain why the average coefficient $\beta$ on reemployment is small and negative.
+
+In the second stage, which is the main test of the paper, we compare workers whose origin sector suffered a negative idiosyncratic shock in a region where the other sectors were growing and adding jobs, the allocative scenario of \citet{lilien1982} and \citet{darougheh2024}. So that the size of the worker's own sector does not contaminate the regional average, we compute for each intermediate region $r_0$, CNAE division $s_0$ and year $t$ the difference between the growth of the origin sector ($g_{r_0,s_0,t}$) and the leave-one-out growth of the sum of the other sectors in the same region ($g_{r_0,-s_0,t}$, computed on $E_{r_0,-s_0,t} = \sum_{s' \neq s_0} E_{r_0,s',t}$):\footnote{To avoid spurious changes in very small cells, we require at least 10 jobs in $E_{r_0,s_0,t-1}$, with the sector present in the region in both years, and at least 50 jobs in $E_{r_0,-s_0,t-1}$.}
+\begin{equation}
+\Delta^{\text{idio}}_{r_0,s_0,t} = g_{r_0,s_0,t} - g_{r_0,-s_0,t}, \qquad \text{subject to } g_{r_0,-s_0,t} > 0.
+\label{eq:choque_leave_one_out}
+\end{equation}
+The condition $g_{r_0,-s_0,t} > 0$ in \hyperref[eq:choque_leave_one_out]{Equation~(\ref*{eq:choque_leave_one_out})} restricts the comparison to regions where the rest of the local economy was adding net jobs, and $\Delta^{\text{idio}}_{r_0,s_0,t}$ measures how much more the worker's sector fell than the other sectors in the region. Rather than a single cutoff for the decline, we compare Group 1 and Group 3 along a ladder of shock severity ($\Delta^{\text{idio}}_{r_0,s_0,t} \le -5, -10, -15 \text{ and } -20$ percentage points). The hypothesis is that, as the origin sector falls further relative to the region and stops rehiring, specialized workers (Group 3) take longer to be reemployed, while portable workers (Group 1) maintain their return rate by moving to the expanding sectors.
+
+There remains the problem of compositional differences between the groups. Before dismissal, Group 1 workers (such as office clerks and administrative assistants) have wages about 40\% higher and longer tenure than Group 3 workers (such as salespeople and cashiers), which affects the direct comparison in two ways. For time to return, wages and tenure influence the speed of reemployment, and tenure determines the number of unemployment insurance installments, which changes the timing of the return to work \citep{gerard2021}. For the reentry wage, a large part of Group 3 earned close to 1 minimum wage before dismissal, and because the new formal wage cannot fall below the floor, the raw wage loss of specialists is understated. To control for these differences, we analyze separately the workers not eligible for unemployment insurance ($\tau_{i,0} < 6$ months) and apply the nonparametric reweighting of \citet{dfl1996}. We divide workers into 16 cells $k \in \{1, \dots, 16\}$, formed by crossing four tenure bands tied to the number of unemployment insurance installments ($<6$ months, no insurance; $6\text{ to }11$ months, 3 installments; $12\text{ to }23$ months, 4 installments; and $\ge 24$ months, 5 installments) with four initial wage bands ($\le 1.25$; $1.25\text{ to }2.00$; $2.00\text{ to }3.50$; and $>3.50$ minimum wages). The reweighting leaves out workers without a positive origin wage. The cells are formed within each band of relative decline (0 to 5, 5 to 10, 10 to 15, 15 to 20 and more than 20 points, plus sectors that grew more than the region), so that the two groups also have the same distribution of shock severity within each rung $\kappa$. At each rung, we recompute the Group 3 mean giving each cell $k$ the weight $\pi_{k \mid G_1, \kappa}$ it has in Group 1, measured by the number of Group 1 dismissed workers in the cell, including for the mean of $\Delta \ln w_i$:
+\begin{equation}
+\hat{\mu}^{\text{DFL}}_{G_3}(\kappa) = \sum_{k=1}^{16} \pi_{k \mid G_1, \kappa}\, \bar{Y}_{k, G_3, \kappa}, \qquad \text{with } \pi_{k \mid G_1, \kappa} = \frac{N_{k, G_1, \kappa}}{\sum_{k'=1}^{16} N_{k', G_1, \kappa}}.
+\label{eq:dfl_reweight}
+\end{equation}
+The difference $\bar{Y}_{G_1}(\kappa) - \hat{\mu}^{\text{DFL}}_{G_3}(\kappa)$, with the reweighted mean from \hyperref[eq:dfl_reweight]{Equation~(\ref*{eq:dfl_reweight})}, compares portable and specialized workers who faced the same local idiosyncratic shock and started from the same initial wage and tenure, both in the speed of return and in the reentry wage.
+
+\FloatBarrier
+\section{Results}
+\label{sec:resultados}
+
+\subsection{The two crises in the regions}
+\label{sec:choques}
+
+The distinction between aggregate and idiosyncratic shocks is usually drawn for the country as a whole. With the comparison in \hyperref[eq:choque_leave_one_out]{Equation~(\ref*{eq:choque_leave_one_out})}, it can be drawn for each region and each sector. \hyperref[fig:natureza]{Figure~\ref*{fig:natureza}} shows, for each year, the share of formal employment that was in declining sectors, split by whether the rest of the same region was growing or shrinking.
+
+\begin{figure}[!htb]
+\centering
+\caption{Employment in declining sectors, by the situation of the rest of the region}
+\label{fig:natureza}
+\figura{fig/f06_natureza.pdf}{Share of the previous year's private formal employment in cells of intermediate region and CNAE division whose employment fell during the year. The rest of the region is the sum of the other sectors in the same region. Cells with fewer than 10 jobs in the previous year and regions whose rest had fewer than 50 are excluded, as in the calculation of \hyperref[sec:escada]{Section~\ref*{sec:escada}}. The values are in \hyperref[tab:natureza]{Table~\ref*{tab:natureza}}. Source: RAIS, authors' calculations.}
+\end{figure}
+
+Until 2014, between 12\% and 31\% of employment was in declining sectors, mostly in regions whose rest was growing, as expected in an expanding economy, where some sectors shrink in each place while the others hire. In 2015 and 2016, declining sectors come to account for 70\% and 80\% of employment, and in almost every case the rest of the region was shrinking too. Only 2.3\% of employment in 2015 and 0.5\% in 2016 was in declining sectors surrounded by expanding ones, which characterizes the recession as a shock common to practically all sectors in each region.
+
+In the pandemic, 59\% of employment was in declining sectors in 2020, 44\% in regions whose rest was also falling and 15\% in regions whose rest was growing, which places that year between the two previous cases. In 2021, with formal employment growing 6\%, the rest of the region was growing in every case and 14\% of employment was in sectors still shrinking, so the idiosyncratic component of the pandemic shows up mainly in the second year.
+
+The same difference appears in the map of the change in formal employment (\hyperref[fig:mapavar]{Figure~\ref*{fig:mapavar}}). Between 2014 and 2016, 118 of the 133 regions lost formal employment, and losses above 5\% cover the Southeast and part of the South and North. Between 2019 and 2020 there were 63 regions with losses, almost always small, alongside expanding regions in the Center-West and North.
+
+\begin{figure}[!htb]
+\centering
+\caption{Change in private formal employment in the intermediate regions (\%)}
+\label{fig:mapavar}
+\figura{fig/f07_mapa_variacao.pdf}{Percentage change in the number of private jobs active on December 31 between the years indicated. Classes are the same in both panels. Source: RAIS, authors' calculations.}
+\end{figure}
+
+In the rest of this section, we treat the dismissals of 2015 and 2016 as dismissals under an aggregate shock, and dismissals from declining sectors in expanding regions, which come mostly from 2014, 2019 and 2021, as dismissals under an idiosyncratic shock. If portability protects workers from the loss of their origin sector, the advantage should appear in the second set of dismissals and not in the first.
+
+\subsection{Reemployment on average across dismissals}
+\label{sec:media}
+
+\hyperref[fig:km]{Figure~\ref*{fig:km}} shows, for each cohort and portability group, the share of dismissed workers who already had a new formal job in each month after separation. The three curves practically overlap in all six panels. Pooling the cohorts, 29.0\% of workers dismissed from high-portability occupations were reemployed within six months, against 28.1\% of those from low-portability occupations. At twelve months the order reverses (49.5\% and 50.2\%), and the median is eight months in both groups (\hyperref[tab:retorno]{Table~\ref*{tab:retorno}}). On average across all dismissals, therefore, we find no faster reemployment for more portable occupations.
+
+\begin{figure}[!htb]
+\centering
+\caption{Formal reemployment by portability group and cohort}
+\label{fig:km}
+\figura{fig/f08_km.pdf}{Complement of the Kaplan-Meier estimator: share of workers dismissed without cause in each year with a new private formal job in each month after separation. Groups are terciles of 2010 employment ordered by the portability index of the origin occupation. Source: RAIS, authors' calculations.}
+\end{figure}
+
+\begin{table}[!htb]
+\centering
+\caption{Formal reemployment by cohort and portability group}
+\label{tab:retorno}
+\input{tab/t_retorno}
+\end{table}
+
+Differences across cohorts are much larger than differences across groups. The share reemployed within twelve months falls from 55\% among workers dismissed in 2014 to between 45\% and 48\% among those dismissed in 2016, while the distance between groups within a cohort never exceeds two percentage points. Workers dismissed in 2019, whose search ran through 2020, have the lowest rate (45\%), and those dismissed in 2021 the highest after 2014. For workers dismissed in the recession the cost is also long-lasting, since between 18\% and 22\% of those dismissed from 2014 to 2016 do not reappear in private formal employment in seven to nine years of follow-up (\hyperref[fig:calendario]{Figure~\ref*{fig:calendario}}).
+
+The regressions of \hyperref[eq:mpl_feols]{Equation~(\ref*{eq:mpl_feols})} lead to the same conclusion (\hyperref[tab:regressoes]{Table~\ref*{tab:regressoes}} and \hyperref[fig:coef]{Figure~\ref*{fig:coef}}). With individual controls, origin wage and sector and municipality fixed effects, the coefficient of the index on reemployment within twelve months lies between $-0.016$ and $-0.031$ and is significant at the 10\% level in only three cohorts. In the Cox model, which uses the whole duration, it is negative and precisely estimated in every cohort. Since the distance between the average index of the extreme groups is 0.57, these coefficients correspond to about 1.7 percentage points less reemployment at twelve months for the high-portability group and to a monthly reemployment rate 3\% to 4\% lower. The sign is the opposite of what the portability hypothesis predicts, although the magnitude is small.
+
+\begin{table}[!htb]
+\centering
+\caption{Portability, reemployment and reentry wage: summary of regressions}
+\label{tab:regressoes}
+\input{tab/t_regressoes}
+\end{table}
+
+\begin{figure}[!htb]
+\centering
+\caption{Coefficient of the portability index by cohort}
+\label{fig:coef}
+\figura{fig/f09_coef.pdf}{Coefficient of the portability index in columns (3), (5) and (6) of \hyperref[tab:regressoes]{Table~\ref*{tab:regressoes}}, with 95\% confidence intervals. Negative values in the first two panels indicate slower reemployment for more portable occupations; positive values in the third indicate a smaller wage loss. Source: RAIS, authors' calculations.}
+\end{figure}
+
+Among reemployed workers, in contrast, and given the origin wage, the coefficient of the index on the change in log wages is positive in every cohort, from 0.032 to 0.051 (column 6), a result we return to in \hyperref[sec:salario]{Section~\ref*{sec:salario}}.
+
+One possible explanation for why more portable workers do not return sooner would be unemployment insurance, but the data do not support it. Insurance affects the timing of reemployment in all groups. The monthly reemployment rate of workers entitled to five installments stays near 3\% until the fourth month and exceeds 7\% in the sixth and seventh, as in \citet{gerard2021}. The share of dismissed workers in that band, however, is similar in the high- and low-portability groups (39.8\% and 37.2\%), and within each tenure band the high-portability group is reemployed faster in the first five months (\hyperref[fig:hazard]{Figure~\ref*{fig:hazard}} and \hyperref[tab:seguro]{Table~\ref*{tab:seguro}}).
+
+\subsection{Where reemployed workers go}
+\label{sec:destino}
+
+The absence of an advantage on average is explained by the kind of job in which each group is reemployed. \hyperref[fig:destino]{Figure~\ref*{fig:destino}} and \hyperref[tab:destino]{Table~\ref*{tab:destino}} classify the first job after dismissal. In the low-portability group, 27.9\% of reemployed workers return to the same occupation in the same sector, against 10.2\% in the high-portability group. Workers in specialized occupations are reemployed mostly in the sector they left, and as long as that sector keeps hiring they take no longer than the others.
+
+\begin{figure}[!htb]
+\centering
+\caption{Destination of reemployed workers by portability group}
+\label{fig:destino}
+\figura{fig/f10_destino.pdf}{First private formal job after separation, six cohorts pooled. Occupation is the six-digit CBO code, family is the four-digit code and sector is the CNAE division. Source: RAIS, authors' calculations.}
+\end{figure}
+
+\begin{table}[!htb]
+\centering
+\caption{Destination of reemployed workers and sector change predicted by the index}
+\label{tab:destino}
+\input{tab/t_destino}
+\end{table}
+
+The transition that the idea of portability describes, to the same occupation in another sector, follows the expected order between the extreme groups (10.5\% of reemployed workers from high-portability occupations and 5.9\% from low-portability ones, with 14.6\% in the middle group), but it is a minority outcome in all of them. Most reemployed workers change their six-digit occupation, 79\% in the high-portability group and 66\% in the other two. Some of these changes are switches between neighboring CBO codes, which the classification records as a change of occupation. Even with that caveat, most dismissed workers change the kind of work they do when they are reemployed, and portability in the strict sense captures only one of the forms of mobility.
+
+The last three columns of \hyperref[tab:destino]{Table~\ref*{tab:destino}} let us check whether the index describes the mobility that actually occurs. Among those who return to the same occupation, 50.7\% change sectors in the high-portability group, 42.4\% in the medium group and 17.5\% in the low group. If the new job were drawn at random from all jobs of the occupation in the country, these shares would be 92.6\%, 75.3\% and 33.9\%. Sector changes thus occur about half as often as the national dispersion of the occupation would allow, which is to be expected, because workers look for jobs in their own region and have experience and contacts in the sector they were in. The ratio of observed to predicted is almost the same in the three groups (0.55, 0.56 and 0.52) and stable across cohorts (\hyperref[tab:destinocoorte]{Table~\ref*{tab:destinocoorte}}), so the index computed on the 2010 stock ranks well the actual mobility of workers dismissed between 2014 and 2021.
+
+\subsection{Reemployment under idiosyncratic shocks}
+\label{sec:escada}
+
+If specialized workers depend on their origin sector to be reemployed, portability should matter in dismissals where that sector shrinks while the other sectors in the region keep hiring. \hyperref[tab:escada]{Table~\ref*{tab:escada}} compares the high- and low-portability groups according to how much less the origin sector grew than the rest of the region in the year of dismissal. Panel B is restricted to regions whose rest was growing, which account for 24.9 million of the 53.4 million dismissals.\footnote{\color{red}Note for revision: the comparison in this section is of means between groups. We will also present it as a regression, with the difference between groups at each rung, standard errors clustered by region $\times$ sector, and the controls and fixed effects of \hyperref[tab:regressoes]{Table~\ref*{tab:regressoes}}.}
+
+\begin{table}[!htb]
+\centering
+\caption{Reemployment by relative decline of the origin sector}
+\label{tab:escada}
+\input{tab/t_escada}
+\end{table}
+
+Without conditioning on the shock, the two groups are reemployed in the same proportion within twelve months (51.7\% and 52.0\%). As the relative decline of the sector deepens, the rate of the high-portability group barely changes, staying between 50.5\% and 51.1\% at every rung, and that of the low-portability group falls from 52.0\% to 46.2\%. The gap between the groups goes from $-0.3$ to 4.4 percentage points at twelve months and from 1.5 to 5.6 points at six months (\hyperref[fig:escada]{Figure~\ref*{fig:escada}}).
+
+\begin{figure}[!htb]
+\centering
+\caption{Reemployment by relative decline of the origin sector}
+\label{fig:escada}
+\figura{fig/f11_escada.pdf}{Panel B of \hyperref[tab:escada]{Table~\ref*{tab:escada}}: workers dismissed in regions whose rest grew in the year of separation. Each point on the horizontal axis pools workers dismissed from sectors that grew at least that many percentage points less than the rest of the region; ``All'' imposes no restriction. Source: RAIS, authors' calculations.}
+\end{figure}
+
+The last two columns of the table indicate where this gap comes from. The share of the high-portability group reemployed in another sector is about 37\% at every rung. In the low-portability group it rises from 24.6\% to 27.7\%, that is, specialized workers also change sectors more when theirs shrinks. Reemployment in the same sector, obtained as the difference between the columns, falls from 27.4\% to 18.5\% in the low-portability group and from 14.9\% to 13.5\% in the high-portability group. Specialized workers lose almost nine points of reemployment in the origin sector and recover about three by changing sectors, whereas portable workers, who already depended little on the origin sector, lose just over one point.
+
+The 2015 and 2016 cohorts, dismissed when there were almost no expanding sectors in any region, show no gap in favor of the high-portability group (\hyperref[tab:retorno]{Table~\ref*{tab:retorno}}), which indicates that the advantage depends on other sectors in the region hiring. In panel A, which mixes expanding and contracting regions, the gap between the groups grows less with the relative decline of the sector and reaches 2.7 points, against 4.4 in panel B. In addition, as seen in \hyperref[fig:regioes]{Figure~\ref*{fig:regioes}}, the regions with the most portable employment were the ones that lost the most jobs in the recession.
+
+This gap does not come from the composition of the groups in wages and tenure. \hyperref[tab:dfl]{Table~\ref*{tab:dfl}} redoes panel B reweighting the low-portability group so that, within each band of relative decline, it has the same distribution of these two variables as the high-portability group. The gaps shrink, especially at six months, but still grow with the severity of the shock and go from $-0.3$ to 3.6 points at twelve months (\hyperref[fig:escadadif]{Figure~\ref*{fig:escadadif}}). Among workers not eligible for unemployment insurance they are larger at every rung and reach 6.8 points at six months.
+
+\begin{table}[!htb]
+\centering
+\caption{Reemployment and reentry wage with reweighting}
+\label{tab:dfl}
+\input{tab/t_dfl}
+\end{table}
+
+\begin{figure}[!htb]
+\centering
+\caption{Reemployment gap between the high- and low-portability groups}
+\label{fig:escadadif}
+\figura{fig/f12_escada_dif.pdf}{Difference between the share reemployed in the high-portability group (G1) and in the low-portability group (G3), in regions whose rest grew. Observed means: panel B of \hyperref[tab:escada]{Table~\ref*{tab:escada}}. Not eligible for unemployment insurance: panel C, workers dismissed with less than six months of tenure. Reweighted means: \hyperref[tab:dfl]{Table~\ref*{tab:dfl}}. Source: RAIS, authors' calculations.}
+\end{figure}
+
+\hyperref[fig:kmchoque]{Figure~\ref*{fig:kmchoque}} follows for 36 months workers dismissed from sectors with a relative decline of at least 10 points and shows that the advantage of the high-portability group is one of timing. The gap reaches 4.7 points in the fourth month and narrows from then on, to 2.3 points at twelve months and 0.2 at 36, when the share reemployed is practically the same (70.5\% and 70.3\%). Among workers without unemployment insurance and with wages of up to 2 minimum wages the initial advantage is similar and disappears around the fourteenth month. Specialized workers do return to formal employment, but only after more time out of it.
+
+\begin{figure}[!htb]
+\centering
+\caption{Reemployment after a relative decline of at least 10 points in the origin sector}
+\label{fig:kmchoque}
+\figura{fig/f13_kmchoque.pdf}{Workers dismissed from sectors that grew at least 10 percentage points less than the rest of the region, in regions whose rest grew. Left panel: complement of the Kaplan-Meier estimator. Right panel: difference between the two curves; the dashed line restricts the sample to workers dismissed with less than six months of tenure and wages of up to 2 minimum wages. Source: RAIS, authors' calculations.}
+\end{figure}
+
+The cutoffs of 5, 10, 15 and 20 points are arbitrary, which is why we report all of them. The panel B sample also comes mostly from the dismissals of 2014, 2019 and 2021, since in 2015 and 2016 there were almost no regions whose rest was expanding.
+
+\subsection{Reentry wages}
+\label{sec:salario}
+
+For wages, the direct comparison between groups suggests the opposite of what one would expect. Among reemployed workers, the average change in log wages, measured in minimum wages, is $-0.068$ in the high-portability group and $-0.030$ in the low-portability group (\hyperref[tab:retorno]{Table~\ref*{tab:retorno}}), and the more portable group loses more in every destination and at every horizon (\hyperref[fig:salario]{Figure~\ref*{fig:salario}}).
+
+\begin{figure}[!htb]
+\centering
+\caption{Wage change between the lost job and the reentry job}
+\label{fig:salario}
+\figura{fig/f14_salario.pdf}{Average change in log wages, in minimum wages, multiplied by 100, among reemployed workers in the six cohorts. Left panel: by number of months between separation and reemployment. Right panel: by type of destination, as defined in \hyperref[tab:destino]{Table~\ref*{tab:destino}}. Source: RAIS, authors' calculations.}
+\end{figure}
+
+This ordering reflects the minimum wage floor, since workers dismissed from low-portability occupations earned on average 1.64 minimum wages and, for those close to the floor, the formal reentry wage has little room to fall. The high-portability group starts from higher wages and can lose more. When we compare workers with the same initial wage and tenure, the sign reverses (last three columns of \hyperref[tab:dfl]{Table~\ref*{tab:dfl}} and \hyperref[fig:saldfl]{Figure~\ref*{fig:saldfl}}). Workers dismissed from low-portability occupations lose 11.9 log points across all expanding regions, against 6.9 for those from high-portability occupations, and 15.8 against 9.8 when the relative decline of the sector is at least 20 points. The gap in favor of portability lies between 5.0 and 6.3 log points at every rung, that is, it appears with or without a shock to the origin sector.
+
+\begin{figure}[!htb]
+\centering
+\caption{Change in reentry wages with reweighting}
+\label{fig:saldfl}
+\figura{fig/f15_salario_dfl.pdf}{Last three columns of \hyperref[tab:dfl]{Table~\ref*{tab:dfl}}, multiplied by 100. The mean of the low-portability group is recomputed with the distribution of initial wage and tenure of the high-portability group. Source: RAIS, authors' calculations.}
+\end{figure}
+
+According to \hyperref[tab:salmec]{Table~\ref*{tab:salmec}}, changing sectors costs 4 to 7 log points, and the interaction of this cost with portability is small and not significant. Since portability is associated with a higher reentry wage both for those who change sectors and for those who stay, it seems to capture the value of a set of skills accepted in many places more than the ease of a specific transition. Each additional month out of work reduces the reentry wage by about 0.3 log points in the recession cohorts and 0.9 in the 2019 cohort, and this loss is larger for workers from portable occupations. Finally, the wage loss of both groups grows with the severity of the shock, in line with the evidence in \citet{davis2011} that the cost of job loss depends on market conditions at the time of dismissal.
+
+\begin{table}[!htb]
+\centering
+\caption{Reentry wage, sector change and time out of work}
+\label{tab:salmec}
+\input{tab/t_salario_mec}
+\end{table}
+
+\FloatBarrier
+\section{Conclusion}
+
+We measured the portability of Brazilian occupations across sectors and followed 53.4 million dismissals without cause that occurred between 2014 and 2021 to see under what conditions it helps workers return to formal employment. On average across dismissals, and especially in those of 2015 and 2016, the reemployment curves of portable and specialized occupations overlap. Specialized workers often return to the same occupation in the same sector and, while that sector is hiring, are reemployed as fast as portable workers who change sectors. When the origin sector shrinks relative to the rest of the region and the rest grows, the reemployment rate of specialized workers falls with the severity of the shock and that of portable workers holds, with a gap of up to 4.4 percentage points at twelve months. This advantage is one of timing and disappears within about three years.
+
+The allocative flexibility of \citet{barros1997ppp} is measured for regions, and we saw that the Brazilian regions where it is higher are also those with more portable employment, larger and with higher wages. Portability, however, leads to faster reemployment only when other sectors in the region are hiring, and the decomposition by region and sector shows that this condition was almost absent in 2015 and 2016, when less than 3\% of employment was in declining sectors surrounded by expanding ones. In the terms of the debate between \citet{lilien1982} and \citet{abraham1986}, the recession was a shock in which reallocation across sectors had little to offer, whatever the occupation of the dismissed worker, and the regions with the most portable workforce were among those that lost the most employment. The slowness with which Brazilian regional markets absorb shocks, documented by \citet{dixcarneiro2017} for trade liberalization, appears here in the share of workers dismissed in the recession who do not return to formal employment in almost a decade.
+
+In reentry wages, workers dismissed from portable occupations lose 5 to 6 log points less than those from specialized occupations with the same initial wage and tenure, whether or not the origin sector was hit by a shock. The direct comparison does not show this difference because specialized workers earn close to the minimum wage and the floor limits how far the formal wage can fall.
+
+Among the limitations of the paper, the first is that RAIS records only formal employment, so those who do not return may be in informal work, self-employment, the public sector or out of the labor force. The portability index is national, while workers look for jobs in their own region. Occupations are not randomly assigned \citep{roy1951}, and workers in portable occupations may differ from the others in characteristics we do not observe. Finally, the comparison under idiosyncratic shocks is of means between groups, uses arbitrary cutoffs and depends on the dismissals of a few years.
+
+\FloatBarrier
+{\singlespacing\setlength{\bibsep}{0pt}\setlength{\parskip}{0pt}
+\begin{thebibliography}{99}
+\scriptsize
+\color{citeblue}
+
+\bibitem[Abraham and Katz(1986)]{abraham1986}
+ABRAHAM, K.~G.; KATZ, L.~F. (1986). Cyclical unemployment: sectoral shifts or aggregate disturbances? \textit{Journal of Political Economy}, 94(3), 507--522. [\href{https://dash.harvard.edu/bitstreams/7312037c-839f-6bd4-e053-0100007fdf3b/download}{Harvard DASH}] [\href{https://doi.org/10.1086/261387}{DOI}]
+
+\bibitem[Amadeo et al.(1994)]{amadeo1994}
+AMADEO, E.~J.; PAES DE BARROS, R.; CAMARGO, J.~M.; MENDON\c{C}A, R.~S.~P.; PERO, V.; URANI, A. (1994). \textit{A natureza e o funcionamento do mercado de trabalho brasileiro desde 1980}. Rio de Janeiro: IPEA (TD no.~353).
+
+\bibitem[Autor(2013)]{autor2013}
+AUTOR, D.~H. (2013). The ``task approach'' to labor markets: an overview. \textit{Journal for Labour Market Research}, 46(3), 185--199. [\href{https://doi.org/10.1007/s12651-013-0128-z}{SpringerOpen}]
+
+\bibitem[Autor, Levy and Murnane(2003)]{autor2003}
+AUTOR, D.~H.; LEVY, F.; MURNANE, R.~J. (2003). The skill content of recent technological change: an empirical exploration. \textit{Quarterly Journal of Economics}, 118(4), 1279--1333. [\href{https://www.nber.org/papers/w8337}{NBER WP 8337}] [\href{https://doi.org/10.1162/003355303322552801}{DOI}]
+
+\bibitem[Barros, Camargo and Mendon\c{c}a(1997)]{barros1997ppp}
+BARROS, R.~P.; CAMARGO, J.~M.; MENDON\c{C}A, R.~S.~P. (1997). Uma avalia\c{c}\~ao emp\'irica do grau de flexibilidade alocativa do mercado de trabalho brasileiro. \textit{Planejamento e Pol\'iticas P\'ublicas (PPP)}, no.~15, 159--194. [\href{https://www.ipea.gov.br/ppp/index.php/PPP/article/view/124}{PPP/IPEA}] [\href{https://repositorio.ipea.gov.br/server/api/core/bitstreams/be0d9cd4-257b-4159-9caf-c88f357d3458/content}{PDF IPEA}]
+
+\bibitem[Barros, Corseuil and Gonzaga(1999)]{barros2000}
+BARROS, R.~P.; CORSEUIL, C.~H.; GONZAGA, G. (1999). \textit{Labor market regulations and the demand for labor in Brazil}. Rio de Janeiro: IPEA (TD no.~656). [\href{https://repositorio.ipea.gov.br/items/ddb14d60-4754-4c0e-8ca5-6bf33582c604}{IPEA repository}]
+
+\bibitem[Barros and Mendon\c{c}a(1997)]{barros1997td}
+BARROS, R.~P.; MENDON\c{C}A, R.~S.~P. (1997). \textit{Flexibilidade do mercado de trabalho brasileiro: uma avalia\c{c}\~ao emp\'irica}. Rio de Janeiro: IPEA (TD no.~452). [\href{https://repositorio.ipea.gov.br/items/cfe45716-d907-4631-9c88-462cd6be302d}{IPEA repository}]
+
+\bibitem[Becker(1962)]{becker1962}
+BECKER, G.~S. (1962). Investment in human capital: a theoretical analysis. \textit{Journal of Political Economy}, 70(5), 9--49. [\href{https://www.nber.org/system/files/chapters/c13571/c13571.pdf}{NBER PDF}] [\href{https://doi.org/10.1086/258724}{DOI}]
+
+\bibitem[Blanchflower and Oswald(1994)]{blanchflower1994}
+BLANCHFLOWER, D.~G.; OSWALD, A.~J. (1994). \textit{The Wage Curve}. Cambridge, MA: MIT Press.
+
+\bibitem[Blanchflower and Oswald(2005)]{blanchflower2005}
+BLANCHFLOWER, D.~G.; OSWALD, A.~J. (2005). \textit{The wage curve reloaded}. Cambridge, MA: NBER (WP no.~11338). [\href{https://www.nber.org/papers/w11338}{NBER}]
+
+\bibitem[Carrillo-Tudela and Visschers(2023)]{carrillotudela2023}
+CARRILLO-TUDELA, C.; VISSCHERS, L. (2023). Unemployment and endogenous reallocation over the business cycle. \textit{Econometrica}, 91(3), 1119--1153. [\href{https://docs.iza.org/dp13307.pdf}{IZA DP 13307}] [\href{https://arxiv.org/abs/2304.00544}{arXiv}]
+
+\bibitem[Carrington(1993)]{carrington1993}
+CARRINGTON, W.~J. (1993). Wage losses for displaced workers: is it really the firm that matters? \textit{Journal of Human Resources}, 28(3), 435--462.
+
+\bibitem[Corseuil et al.(2021)]{corseuil2020}
+CORSEUIL, C.~H.; FRANCA, M.; PADILHA, G.; RAMOS, L.; RUSSO, F. (2021). \textit{Comportamento do mercado de trabalho brasileiro em duas recess\~oes: an\'alise do per\'iodo 2015--2017 e da pandemia de Covid-19}. Bras\'ilia: IPEA (Nota T\'ecnica Disoc no.~92). [\href{https://www.ipea.gov.br/portal/categorias/129-coronavirus/publicacoes/8361-nota-tecnica-2021-fevereiro-numero-92-disoc}{IPEA}]
+
+\bibitem[Couch and Placzek(2010)]{couch2010}
+COUCH, K.~A.; PLACZEK, D.~W. (2010). Earnings losses of displaced workers revisited. \textit{American Economic Review}, 100(1), 572--589. [\href{https://pubs.aeaweb.org/doi/abs/10.1257/aer.100.1.572}{AEA}]
+
+\bibitem[Darougheh(2022)]{darougheh2022}
+DAROUGHEH, S. (2022). \textit{Occupation-industry mismatch in the cross-section and the aggregate}. Copenhagen: Danmarks Nationalbank (WP no.~147r). [\href{https://www.nationalbanken.dk/media/gzrhnpy4/dn-wp147r.pdf}{Danmarks Nationalbank PDF}]
+
+\bibitem[Darougheh(2024)]{darougheh2024}
+DAROUGHEH, S. (2024). Occupation-industry mismatch in the cross section and the aggregate. \textit{Journal of Political Economy Macroeconomics}, 2(3), 375--408. [\href{https://www.journals.uchicago.edu/doi/10.1086/731536}{JPE Macroeconomics}]
+
+\bibitem[Davis and von Wachter(2011)]{davis2011}
+DAVIS, S.~J.; VON WACHTER, T. (2011). Recessions and the costs of job loss. \textit{Brookings Papers on Economic Activity}, 2011(2), 1--72. [\href{https://doi.org/10.1353/eca.2011.0016}{DOI}]
+
+\bibitem[Deming(2017)]{deming2017}
+DEMING, D.~J. (2017). The growing importance of social skills in the labor market. \textit{Quarterly Journal of Economics}, 132(4), 1593--1640. [\href{https://www.nber.org/papers/w21473}{NBER WP 21473}] [\href{https://doi.org/10.1093/qje/qjx022}{DOI}]
+
+\bibitem[DiNardo, Fortin and Lemieux(1996)]{dfl1996}
+DINARDO, J.; FORTIN, N.~M.; LEMIEUX, T. (1996). Labor market institutions and the distribution of wages, 1973--1992: a semiparametric approach. \textit{Econometrica}, 64(5), 1001--1044. [\href{https://www.nber.org/papers/w5093}{NBER WP 5093}]
+
+\bibitem[Dix-Carneiro and Kovak(2017)]{dixcarneiro2017}
+DIX-CARNEIRO, R.; KOVAK, B.~K. (2017). Trade liberalization and regional dynamics. \textit{American Economic Review}, 107(10), 2908--2946. [\href{https://doi.org/10.1257/aer.20161214}{DOI}]
+
+\bibitem[Ellison, Glaeser and Kerr(2010)]{ellison2010}
+ELLISON, G.; GLAESER, E.~L.; KERR, W.~R. (2010). What causes industry agglomeration? Evidence from coagglomeration patterns. \textit{American Economic Review}, 100(3), 1195--1213. [\href{https://www.nber.org/papers/w13068}{NBER WP 13068}]
+
+\bibitem[Figueiredo, Guimar\~aes and Woodward(2009)]{figueiredo2009}
+FIGUEIREDO, O.; GUIMAR\~AES, P.; WOODWARD, D. (2009). Localization economies and establishment size: was Marshall right after all? \textit{Journal of Economic Geography}, 9(6), 853--868.
+
+\bibitem[Frenken, Van Oort and Verburg(2007)]{frenken2007}
+FRENKEN, K.; VAN OORT, F.; VERBURG, T. (2007). Related variety, unrelated variety and regional economic growth. \textit{Regional Studies}, 41(5), 685--697.
+
+\bibitem[Gathmann and Sch\"onberg(2010)]{gathmann2010}
+GATHMANN, C.; SCH\"ONBERG, U. (2010). How general is human capital? A task-based approach. \textit{Journal of Labor Economics}, 28(1), 1--49. [\href{https://ideas.repec.org/p/iza/izadps/dp3067.html}{IZA DP 3067}] [\href{https://doi.org/10.1086/649786}{DOI}]
+
+\bibitem[Gerard and Gonzaga(2021)]{gerard2021}
+GERARD, F.; GONZAGA, G. (2021). Informal labor and the efficiency cost of social programs: evidence from unemployment insurance in Brazil. \textit{American Economic Journal: Economic Policy}, 13(3), 167--206. [\href{https://www.nber.org/papers/w22608}{NBER WP 22608}] [\href{https://www.aeaweb.org/articles?id=10.1257/pol.20180072}{AEA}]
+
+\bibitem[Gonzaga(2003)]{gonzaga2003}
+GONZAGA, G. (2003). Labor turnover and labor legislation in Brazil. \textit{Economia}, 4(1), 165--222. [\href{https://www.researchgate.net/publication/24124235_Labor_Turnover_and_Labor_Legislation_in_Brazil}{ResearchGate}]
+
+\bibitem[Jacinto and Ribeiro(2015)]{jacinto2015}
+JACINTO, P.~A.; RIBEIRO, E.~P. (2015). Crescimento da produtividade no setor de servi\c{c}os e da ind\'ustria no Brasil: din\^amica e heterogeneidade. \textit{Economia Aplicada}, 19(3), 401--427. [\href{https://doi.org/10.1590/1413-8050/ea119450}{SciELO}]
+
+\bibitem[Jacobson, LaLonde and Sullivan(1993)]{jacobson1993}
+JACOBSON, L.~S.; LALONDE, R.~J.; SULLIVAN, D.~G. (1993). Earnings losses of displaced workers. \textit{American Economic Review}, 83(4), 685--709. [\href{https://www.econstor.eu/bitstream/10419/172346/1/wp1992-11.pdf}{EconStor PDF}]
+
+\bibitem[Jara-Figueroa et al.(2018)]{jarafigueroa2018}
+JARA-FIGUEROA, C.; JUN, B.; GLAESER, E.~L.; HIDALGO, C.~A. (2018). The role of industry-specific, occupation-specific, and location-specific knowledge in the growth and survival of new firms. \textit{PNAS}, 115(50), 12646--12653. [\href{https://doi.org/10.1073/pnas.1800475115}{PNAS}]
+
+\bibitem[Kambourov and Manovskii(2009)]{kambourov2009}
+KAMBOUROV, G.; MANOVSKII, I. (2009). Occupational specificity of human capital. \textit{International Economic Review}, 50(1), 63--115. [\href{https://ideas.repec.org/a/ier/iecrev/v50y2009i1p63-115.html}{RePEc}] [\href{https://doi.org/10.1111/j.1468-2354.2008.00524.x}{DOI}]
+
+\bibitem[Layard, Nickell and Jackman(1991)]{layard1991}
+LAYARD, R.; NICKELL, S.; JACKMAN, R. (1991). \textit{Unemployment: Macroeconomic Performance and the Labour Market}. Oxford: Oxford University Press (2.~ed., 2005).
+
+\bibitem[Lilien(1982)]{lilien1982}
+LILIEN, D.~M. (1982). Sectoral shifts and cyclical unemployment. \textit{Journal of Political Economy}, 90(4), 777--793. [\href{https://www.journals.uchicago.edu/doi/10.1086/261088}{DOI}]
+
+\bibitem[Longhi and Taylor(2013)]{longhi2013}
+LONGHI, S.; TAYLOR, M. (2013). Occupational change and mobility among employed and unemployed job seekers. \textit{Scottish Journal of Political Economy}, 60(1), 71--100.
+
+\bibitem[Maciente(2013)]{maciente2013}
+MACIENTE, A.~N. (2013). \textit{The determinants of agglomeration in Brazil: input-output, labor and knowledge externalities}. PhD Thesis, University of Illinois at Urbana-Champaign.
+
+\bibitem[Maciente, Rauen and Kubota(2019)]{maciente2019}
+MACIENTE, A.~N.; RAUEN, C.~V.; KUBOTA, L.~C. (2019). Tecnologias digitais, habilidades ocupacionais e emprego formal no Brasil entre 2003 e 2017. \textit{Mercado de Trabalho: Conjuntura e An\'alise}, no.~66. Bras\'ilia: IPEA. [\href{https://repositorio.ipea.gov.br/bitstream/11058/10274/10/bmt_66_tecnologias_digitais.pdf}{IPEA repository}]
+
+\bibitem[Marioni(2021)]{marioni2021}
+MARIONI, L.~S. (2021). Overeducation in the labour market: evidence from Brazil. \textit{Education Economics}, 29(1), 53--72.
+
+\bibitem[Marshall(1890)]{marshall1890}
+MARSHALL, A. (1890). \textit{Principles of Economics}. London: Macmillan and Co.
+
+\bibitem[Mortensen and Pissarides(1994)]{mortensen1994}
+MORTENSEN, D.~T.; PISSARIDES, C.~A. (1994). Job creation and job destruction in the theory of unemployment. \textit{Review of Economic Studies}, 61(3), 397--415.
+
+\bibitem[Neal(1995)]{neal1995}
+NEAL, D. (1995). Industry-specific human capital: evidence from displaced workers. \textit{Journal of Labor Economics}, 13(4), 653--677. [\href{https://doi.org/10.1086/298388}{DOI}]
+
+\bibitem[Neves J\'unior, Azzoni and Chagas(2021)]{junior2021}
+NEVES J\'UNIOR, E.~C.; AZZONI, C.~R.; CHAGAS, A.~L.~S. (2021). Habilidades e pr\^emio salarial urbano. \textit{Pesquisa e Planejamento Econ\^omico}, 51(2). [\href{https://repositorio.ipea.gov.br/bitstream/11058/11311/1/ppe_51_n2_2021.pdf}{IPEA repository}]
+
+\bibitem[Parent(2000)]{parent2000}
+PARENT, D. (2000). Industry-specific capital and the wage profile: evidence from the NLSY and the PSID. \textit{Journal of Labor Economics}, 18(2), 306--323.
+
+\bibitem[Pissarides(2000)]{pissarides2000}
+PISSARIDES, C.~A. (2000). \textit{Equilibrium Unemployment Theory}. 2.~ed. Cambridge, MA: MIT Press.
+
+\bibitem[Poletaev and Robinson(2008)]{poletaev2008}
+POLETAEV, M.; ROBINSON, C. (2008). Human capital specificity: evidence from the Dictionary of Occupational Titles and Displaced Worker Surveys, 1984--2000. \textit{Journal of Labor Economics}, 26(3), 387--420. [\href{https://www.journals.uchicago.edu/doi/abs/10.1086/588180}{DOI}]
+
+\bibitem[Ponczek and Ulyssea(2022)]{ponczek2022}
+PONCZEK, V.; ULYSSEA, G. (2022). Enforcement of labour regulation and the labour market effects of trade: evidence from Brazil. \textit{Economic Journal}, 132(641), 361--390.
+
+\bibitem[Rodrik(2016)]{rodrik2016}
+RODRIK, D. (2016). Premature deindustrialization. \textit{Journal of Economic Growth}, 21(1), 1--33. [\href{https://doi.org/10.1007/s10887-015-9122-3}{DOI}]
+
+\bibitem[Roy(1951)]{roy1951}
+ROY, A.~D. (1951). Some thoughts on the distribution of earnings. \textit{Oxford Economic Papers}, 3(2), 135--146.
+
+\bibitem[Saboia(2013)]{saboia2013}
+SABOIA, J. (2013). A continuidade do processo de desconcentra\c{c}\~ao regional da ind\'ustria brasileira nos anos 2000. \textit{Nova Economia}, 23(2), 219--278. [\href{https://doi.org/10.1590/S0103-63512013000200001}{SciELO}]
+
+\bibitem[\c{S}ahin et al.(2014)]{sahin2014}
+\c{S}AHIN, A.; SONG, J.; TOPA, G.; VIOLANTE, G.~L. (2014). Mismatch unemployment. \textit{American Economic Review}, 104(11), 3529--3564. [\href{https://oar.princeton.edu/rt4ds/file/13928/mismatch+u.pdf}{Princeton PDF}] [\href{https://doi.org/10.1257/aer.104.11.3529}{DOI}]
+
+\bibitem[Shapiro and Stiglitz(1984)]{shapiro1984}
+SHAPIRO, C.; STIGLITZ, J.~E. (1984). Equilibrium unemployment as a worker discipline device. \textit{American Economic Review}, 74(3), 433--444.
+
+\bibitem[Sicherman(1991)]{sicherman1991}
+SICHERMAN, N. (1991). ``Overeducation'' in the labor market. \textit{Journal of Labor Economics}, 9(2), 101--122.
+
+\bibitem[Staduto and Schio(2010)]{staduto2010}
+STADUTO, J.~A.~R.; SCHIO, T.~A. (2010). Flexibilidade alocativa do mercado de trabalho brasileiro: uma avalia\c{c}\~ao emp\'irica dos estados e das regi\~oes metropolitanas e n\~ao-metropolitanas. \textit{Revista Brasileira de Estudos Regionais e Urbanos (RBERU)}, 4(2), 51--66.
+
+\bibitem[Sullivan(2010)]{sullivan2010}
+SULLIVAN, P. (2010). Empirical evidence on occupation and industry specific human capital. \textit{Labour Economics}, 17(3), 567--580. [\href{https://pmc.ncbi.nlm.nih.gov/articles/PMC2879094/}{PMC Open Access}]
+
+\bibitem[Topel(1991)]{topel1991}
+TOPEL, R. (1991). Specific capital, mobility, and wages: wages rise with job seniority. \textit{Journal of Political Economy}, 99(1), 145--176.
+
+\bibitem[Wiczer(2015)]{wiczer2015}
+WICZER, D.~G. (2015). \textit{Long-term unemployment: attached and mismatched?} St. Louis: Federal Reserve Bank of St. Louis (WP 2015-042A).
+
+\end{thebibliography}}
+
+\clearpage
+\appendix
+\renewcommand{\thetable}{A\arabic{table}}
+\renewcommand{\thefigure}{A\arabic{figure}}
+\setcounter{table}{0}
+\setcounter{figure}{0}
+
+\section{Construction of the cohorts}
+\label{ap:coortes}
+
+\hyperref[fig:coortes]{Figure~\ref*{fig:coortes}} follows the RAIS records from the stock of private formal jobs to the six cohorts of dismissed workers and to the outcomes observed for each of them through December 2023. The counts add up the six cohort years, and \hyperref[tab:coortes]{Table~\ref*{tab:coortes}} gives them by year.
+
+\begin{figure}[!htb]
+\centering
+\caption{Construction of the cohorts and outcomes after dismissal}
+\label{fig:coortes}
+\figura{fig/fa0_coortes.pdf}{Counts add up the six cohort years (2014, 2015, 2016, 2019, 2020 and 2021), so a worker appears once for each year in which the condition holds. Dismissal without cause is RAIS separation code 11 with the month of separation reported. The portability groups are terciles of 2010 employment ordered by the index of the origin occupation. In the outcome boxes, the first split gives shares of all dismissals and the boxes below it give shares of reemployed workers. Occupation is the six-digit CBO code and family is the four-digit code. Outcomes by group are in \hyperref[tab:retorno]{Table~\ref*{tab:retorno}} and \hyperref[tab:destino]{Table~\ref*{tab:destino}}. Source: RAIS, authors' calculations.}
+\end{figure}
+
+\FloatBarrier
+\section{Evolution of the portability index}
+\label{ap:indice}
+
+To see whether the change in the economy's average portability, $\bar{m}_t = \sum_o \omega_{o,t} m_{o,t}$ (where $\omega_{o,t} = E_{o,t}/E_t$ is the share of occupation $o$ in total employment), came from job creation in occupations that were already portable in 2010 or from each occupation entering new sectors, we decompose $\Delta \bar{m}_t = \bar{m}_t - \bar{m}_{2010}$ by shift-share:
+\begin{equation}
+\Delta \bar{m}_t = \sum_{o} \Delta \omega_{o,t}\, m_{o,2010} + \sum_{o} \omega_{o,2010}\, \Delta m_{o,t} + \sum_{o} \Delta \omega_{o,t}\, \Delta m_{o,t}.
+\label{eq:shift_share}
+\end{equation}
+The first term of \hyperref[eq:shift_share]{Equation~(\ref*{eq:shift_share})} is the composition effect (change in the weight of occupations, with 2010 portability held fixed), the second is the diffusion effect (change in the dispersion of each occupation, with its 2010 weight held fixed) and the third is the interaction between the two. Occupations with no jobs in 2010 enter with weight and index equal to zero in that year, and their whole contribution falls in the third term.
+
+
+The average index rose from 0.666 in 2009 to 0.672 in 2012, fell to 0.650 in 2018 and returned to 0.674 in 2023 (left panel of \hyperref[fig:serie]{Figure~\ref*{fig:serie}}). The dashed line redoes the calculation keeping each occupation at its 2010 index, so that only the composition of employment varies. By this measure, the decline between 2014 and 2018 is 0.010, against 0.015 in the index of each year. Between 2010 and 2014 composition changed little and the index of the occupations themselves was already falling, from 2014 to 2018 the two movements add up, and from 2019 on both reverse.
+
+\begin{figure}[!htb]
+\centering
+\caption{Average portability index, 2009 to 2023}
+\label{fig:serie}
+\figura{fig/fa1_serie.pdf}{Averages weighted by private jobs active on December 31. In the right panel, composition is the change in the average index with each occupation's index fixed at 2010, and the within-occupation part is the difference between the index of each year and the fixed index. The gray bands mark 2015 and 2016 and 2020 and 2021. Source: RAIS, authors' calculations.}
+\end{figure}
+
+In the recession, the change in composition came from medium-portability occupations. The share of Group 2 in employment fell from 32.5\% in 2014 to 30.5\% in 2018 and that of Group 3 rose from 33.9\% to 36.4\%, with Group 1 practically stable (\hyperref[fig:grupos]{Figure~\ref*{fig:grupos}}), and between 2019 and 2023 the movement is partly undone. The decomposition of \hyperref[eq:shift_share]{Equation~(\ref*{eq:shift_share})} by subperiod shows the same sequence (\hyperref[tab:shiftshare]{Table~\ref*{tab:shiftshare}}): from 2010 to 2014 the change comes from within occupations, from 2014 to 2019 it comes from the reallocation of employment across occupations, and from 2019 to 2023 both terms are positive. These swings are the reason for fixing the index and the groups in 2010, since with the index of each year an occupation could change groups because of the very crisis we want to study.
+
+\begin{figure}[!htb]
+\centering
+\caption{Portability groups and percentiles of the index, 2009 to 2023}
+\label{fig:grupos}
+\figura{fig/fa2_grupos.pdf}{Left panel: share of each group in private formal employment, with each occupation kept in the group defined in 2010. Right panel: percentiles of each year's index, weighted by jobs. Source: RAIS, authors' calculations.}
+\end{figure}
+
+\begin{table}[!htb]
+\centering
+\caption{Decomposition of the change in the average portability index}
+\label{tab:shiftshare}
+\input{tab/t_shiftshare}
+\end{table}
+
+\begin{table}[!htb]
+\centering
+\caption{Employment, portability index and groups by year}
+\label{tab:indiceano}
+\setlength{\tabcolsep}{4.5pt}
+\input{tab/t_indice_ano}
+\end{table}
+
+\begin{table}[!htb]
+\centering
+\caption{Portability index by CBO major group, 2010}
+\label{tab:gg}
+\input{tab/t_grandes_grupos}
+\end{table}
+
+\begin{table}[!htb]
+\centering
+\caption{Most and least portable occupations, 2023}
+\label{tab:extremos}
+\input{tab/t_extremos}
+\end{table}
+
+\FloatBarrier
+\section{Regional indicators}
+\label{ap:regioes}
+
+\hyperref[tab:regioes]{Table~\ref*{tab:regioes}} summarizes the distribution of the regional indicators in the two windows. Mismatch is much more dispersed than turbulence, because it sums squared deviations of growth rates, and a small sector that multiplies its employment several times weighs heavily even with a small initial share. Manaus between 2014 and 2019 is an example, with turbulence of 0.096, close to the median, and mismatch of 2.41, which brings flexibility down to 0.04. \hyperref[fig:mapaflex]{Figures~\ref*{fig:mapaflex}} to \hyperref[fig:mapadesc]{\ref*{fig:mapadesc}} show the three indicators in the two windows, and \hyperref[tab:flexrec]{Tables~\ref*{tab:flexrec}} to \hyperref[tab:uf]{\ref*{tab:uf}} list the regions at the extremes and the values by state.
+
+Computed year by year, the turbulence and mismatch indicators do not separate the two crisis episodes (\hyperref[fig:tdanual]{Figure~\ref*{fig:tdanual}}). The regional median of annual turbulence stays between 0.031 and 0.047 over the whole period and does not rise in 2015 or 2016, and median mismatch in 2016 is one of the lowest in the series. The dispersion of growth across sectors does not tell us whether some sectors are hiring while others lay off, which is the condition for reallocation to take place. That condition is measured directly by the comparison in \hyperref[sec:choques]{Section~\ref*{sec:choques}}, whose values are in \hyperref[tab:natureza]{Table~\ref*{tab:natureza}}.
+
+\begin{table}[!htb]
+\centering
+\caption{Turbulence, mismatch, flexibility and portability in the intermediate regions}
+\label{tab:regioes}
+\input{tab/t_regioes_resumo}
+\end{table}
+
+\begin{figure}[!htb]
+\centering
+\caption{Allocative flexibility in the intermediate regions}
+\label{fig:mapaflex}
+\figura{fig/fa3_mapa_flex.pdf}{Ratio of sectoral turbulence to mismatch (\hyperref[eq:barros_tdf]{Equation~(\ref*{eq:barros_tdf})}) in the 2014 to 2019 and 2019 to 2022 windows. Classes are quintiles computed pooling the two windows. Source: RAIS, authors' calculations.}
+\end{figure}
+
+\begin{figure}[!htb]
+\centering
+\caption{Sectoral turbulence in the intermediate regions}
+\label{fig:mapaturb}
+\figura{fig/fa4_mapa_turb.pdf}{Share of private formal employment that changed sectors, in net terms, in each window. Classes are quintiles computed pooling the two windows. Source: RAIS, authors' calculations.}
+\end{figure}
+
+\begin{figure}[!htb]
+\centering
+\caption{Sectoral mismatch in the intermediate regions}
+\label{fig:mapadesc}
+\figura{fig/fa5_mapa_desc.pdf}{Variance of sectoral employment growth around the region's growth, weighted by each sector's initial share. Classes are quintiles computed pooling the two windows. Source: RAIS, authors' calculations.}
+\end{figure}
+
+\begin{figure}[!htb]
+\centering
+\caption{Annual turbulence and mismatch}
+\label{fig:tdanual}
+\figura{fig/fa6_td_anual.pdf}{Median, across the 133 intermediate regions, of the indicators computed between December of one year and December of the next. The year on the axis is the final year. Source: RAIS, authors' calculations.}
+\end{figure}
+
+\begin{table}[!htb]
+\centering
+\caption{Most and least flexible intermediate regions, 2014 to 2019}
+\label{tab:flexrec}
+\input{tab/t_flex_rec}
+\end{table}
+
+\begin{table}[!htb]
+\centering
+\caption{Most and least flexible intermediate regions, 2019 to 2022}
+\label{tab:flexpan}
+\input{tab/t_flex_pan}
+\end{table}
+
+\begin{table}[!htb]
+\centering
+\caption{Indicators by state}
+\label{tab:uf}
+\setlength{\tabcolsep}{5pt}
+\input{tab/t_uf}
+\end{table}
+
+\begin{table}[!htb]
+\centering
+\caption{Employment by change in the sector and in the rest of the region}
+\label{tab:natureza}
+\input{tab/t_natureza}
+\end{table}
+
+\FloatBarrier
+\section{Additional results}
+\label{ap:complementos}
+
+\begin{figure}[!htb]
+\centering
+\caption{Cumulative formal reemployment by calendar year}
+\label{fig:calendario}
+\figura{fig/fa7_calendario.pdf}{Share of dismissed workers in each cohort with a new private formal job by December of each year. Each line starts in the year of dismissal. Source: RAIS, authors' calculations.}
+\end{figure}
+
+\begin{figure}[!htb]
+\centering
+\caption{Monthly reemployment rate by tenure in the lost job}
+\label{fig:hazard}
+\figura{fig/fa8_hazard.pdf}{Six cohorts pooled. Share of dismissed workers still without a new job at the start of each month who are reemployed in that month. Workers dismissed with 24 months or more of tenure were entitled to five unemployment insurance installments; those with less than six months, to none. Source: RAIS, authors' calculations.}
+\end{figure}
+
+\begin{table}[!htb]
+\centering
+\caption{Reemployment by tenure and portability group}
+\label{tab:seguro}
+\input{tab/t_seguro}
+\end{table}
+
+\begin{table}[!htb]
+\centering
+\caption{Portability and reemployment within six months by unemployment insurance eligibility}
+\label{tab:seguroreg}
+\input{tab/t_seguro_reg}
+\end{table}
+
+\begin{table}[!htb]
+\centering
+\caption{Destination of reemployed workers by cohort}
+\label{tab:destinocoorte}
+\setlength{\tabcolsep}{4pt}
+\input{tab/t_destino_coorte}
+\end{table}
+
+\begin{table}[!htb]
+\centering
+\caption{Wage change by destination}
+\label{tab:saldestino}
+\input{tab/t_salario_destino}
+\end{table}
+
+\begin{table}[!htb]
+\centering
+\caption{Reemployment within twelve months: full regressions}
+\label{tab:reg12}
+\input{tab/t_reg_12m}
+\end{table}
+
+\begin{table}[!htb]
+\centering
+\caption{Change in log wages: full regressions}
+\label{tab:regsal}
+\input{tab/t_reg_sal}
+\end{table}
+
+\begin{table}[!htb]
+\centering
+\caption{Cox model: full regressions}
+\label{tab:regcox}
+\input{tab/t_reg_cox}
+\end{table}
+
+\end{document}

@@ -1,0 +1,19 @@
+\documentclass[11pt,border=2pt]{standalone}
+\input{estilo}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+  width=10.5cm, height=5.8cm,
+  xmin=-0.3, xmax=4.3, xtick={0,1,2,3,4}, xticklabels={All, 5, 10, 15, 20},
+  xlabel={Minimum relative decline (percentage points)},
+  ylabel={Wage change (log $\times$ 100)},
+  ymin=-18, ymax=0, ytick={-15,-10,-5,0},
+  every axis plot/.append style={mark=*, mark size=1.5pt},
+  legend style={at={(0.5,-0.3)}, anchor=north, legend columns=2},
+]
+\addplot[g1] table[x=degrau, y=dlog1] {\dados{escada_dfl}};
+\addplot[g3] table[x=degrau, y=dlog3] {\dados{escada_dfl}};
+\legend{High portability (G1), Low portability (G3) reweighted}
+\end{axis}
+\end{tikzpicture}
+\end{document}

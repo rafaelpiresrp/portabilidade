@@ -1,0 +1,42 @@
+\documentclass[11pt,border=2pt]{standalone}
+\input{estilo}
+\begin{document}
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={group size=3 by 2, horizontal sep=0.5cm, vertical sep=1.25cm,
+               ylabels at=edge left, yticklabels at=edge left},
+  width=5.85cm, height=4.8cm,
+  xmin=0, xmax=24, xtick={0,6,12,18,24},
+  ymin=0, ymax=70, ytick={0,20,40,60},
+  restrict x to domain=0:24,
+]
+\nextgroupplot[title={2014 cohort}, ylabel={Reemployed (\%)}]
+\addplot[g2] table[x=mes, y=g2] {\dados{km_c2014}};
+\addplot[g3] table[x=mes, y=g3] {\dados{km_c2014}};
+\addplot[g1] table[x=mes, y=g1] {\dados{km_c2014}};
+\nextgroupplot[title={2015 cohort}]
+\addplot[g2] table[x=mes, y=g2] {\dados{km_c2015}};
+\addplot[g3] table[x=mes, y=g3] {\dados{km_c2015}};
+\addplot[g1] table[x=mes, y=g1] {\dados{km_c2015}};
+\nextgroupplot[title={2016 cohort}]
+\addplot[g2] table[x=mes, y=g2] {\dados{km_c2016}};
+\addplot[g3] table[x=mes, y=g3] {\dados{km_c2016}};
+\addplot[g1] table[x=mes, y=g1] {\dados{km_c2016}};
+\nextgroupplot[title={2019 cohort}, ylabel={Reemployed (\%)}, xlabel={Months after separation},
+  legend to name=legkm, legend columns=3]
+\addplot[g1] table[x=mes, y=g1] {\dados{km_c2019}};
+\addplot[g2] table[x=mes, y=g2] {\dados{km_c2019}};
+\addplot[g3] table[x=mes, y=g3] {\dados{km_c2019}};
+\legend{High portability (G1), Medium (G2), Low (G3)}
+\nextgroupplot[title={2020 cohort}, xlabel={Months after separation}]
+\addplot[g2] table[x=mes, y=g2] {\dados{km_c2020}};
+\addplot[g3] table[x=mes, y=g3] {\dados{km_c2020}};
+\addplot[g1] table[x=mes, y=g1] {\dados{km_c2020}};
+\nextgroupplot[title={2021 cohort}, xlabel={Months after separation}]
+\addplot[g2] table[x=mes, y=g2] {\dados{km_c2021}};
+\addplot[g3] table[x=mes, y=g3] {\dados{km_c2021}};
+\addplot[g1] table[x=mes, y=g1] {\dados{km_c2021}};
+\end{groupplot}
+\node[anchor=north] at ([yshift=-1.25cm]group c2r2.south) {\pgfplotslegendfromname{legkm}};
+\end{tikzpicture}
+\end{document}

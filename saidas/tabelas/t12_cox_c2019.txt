@@ -1,0 +1,50 @@
+Cox em amostra aleatoria de 500000 de 8179238 observacoes (semente 1)
+
+Call:
+coxph(formula = Surv(meses, voltou) ~ broadness + log_rem0 + 
+    idade + tempo + factor(sexo) + factor(grauinstr) + strata(div), 
+    data = am[!is.na(log_rem0)])
+
+  n= 462165, number of events= 344121 
+
+                          coef  exp(coef)   se(coef)       z Pr(>|z|)    
+broadness           -5.662e-02  9.450e-01  7.695e-03  -7.358 1.86e-13 ***
+log_rem0             2.487e-01  1.282e+00  4.032e-03  61.694  < 2e-16 ***
+idade               -1.767e-02  9.825e-01  1.782e-04 -99.137  < 2e-16 ***
+tempo               -4.543e-03  9.955e-01  5.365e-05 -84.694  < 2e-16 ***
+factor(sexo)2       -1.030e-01  9.021e-01  3.953e-03 -26.051  < 2e-16 ***
+factor(grauinstr)2  -5.989e-03  9.940e-01  2.931e-02  -0.204 0.838100    
+factor(grauinstr)3   2.780e-02  1.028e+00  2.971e-02   0.936 0.349414    
+factor(grauinstr)4   1.318e-02  1.013e+00  2.844e-02   0.463 0.643048    
+factor(grauinstr)5  -8.139e-03  9.919e-01  2.812e-02  -0.289 0.772224    
+factor(grauinstr)6  -1.375e-02  9.863e-01  2.828e-02  -0.486 0.626974    
+factor(grauinstr)7  -1.582e-02  9.843e-01  2.777e-02  -0.570 0.568912    
+factor(grauinstr)8  -1.006e-01  9.043e-01  2.919e-02  -3.448 0.000565 ***
+factor(grauinstr)9  -2.597e-01  7.713e-01  2.864e-02  -9.068  < 2e-16 ***
+factor(grauinstr)10 -6.228e-01  5.364e-01  5.433e-02 -11.464  < 2e-16 ***
+factor(grauinstr)11 -7.551e-01  4.699e-01  9.733e-02  -7.759 8.59e-15 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+                    exp(coef) exp(-coef) lower .95 upper .95
+broadness              0.9450     1.0583    0.9308    0.9593
+log_rem0               1.2824     0.7798    1.2723    1.2926
+idade                  0.9825     1.0178    0.9821    0.9828
+tempo                  0.9955     1.0046    0.9954    0.9956
+factor(sexo)2          0.9021     1.1085    0.8952    0.9092
+factor(grauinstr)2     0.9940     1.0060    0.9385    1.0528
+factor(grauinstr)3     1.0282     0.9726    0.9700    1.0899
+factor(grauinstr)4     1.0133     0.9869    0.9583    1.0713
+factor(grauinstr)5     0.9919     1.0082    0.9387    1.0481
+factor(grauinstr)6     0.9863     1.0138    0.9332    1.0426
+factor(grauinstr)7     0.9843     1.0159    0.9322    1.0394
+factor(grauinstr)8     0.9043     1.1059    0.8540    0.9575
+factor(grauinstr)9     0.7713     1.2965    0.7292    0.8158
+factor(grauinstr)10    0.5364     1.8642    0.4822    0.5967
+factor(grauinstr)11    0.4699     2.1279    0.3883    0.5687
+
+Concordance= 0.571  (se = 0.001 )
+Likelihood ratio test= 28321  on 15 df,   p=<2e-16
+Wald test            = 24831  on 15 df,   p=<2e-16
+Score (logrank) test = 25034  on 15 df,   p=<2e-16
+

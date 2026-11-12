@@ -1,0 +1,41 @@
+\documentclass[11pt,border=2pt]{standalone}
+\input{estilo}
+\begin{document}
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={group size=2 by 1, horizontal sep=1.9cm},
+  width=7.6cm, height=6.4cm,
+  xmin=0.5, xmax=0.73, xtick={0.5,0.55,0.6,0.65,0.7},
+  x tick label style={/pgf/number format/fixed, /pgf/number format/precision=2,
+                      /pgf/number format/fixed zerofill},
+  xlabel={Average portability of employment (2014)},
+  scatter/use mapped color={draw=none},
+]
+\nextgroupplot[ylabel={Allocative flexibility (2014 to 2019)}, ymin=0, ymax=3, ytick={0,1,2,3},
+  legend to name=legreg, legend columns=3]
+\addplot[scatter, only marks, mark=*, cg2, fill=cg2, fill opacity=0.55, draw opacity=0,
+  visualization depends on={\thisrow{raio} \as \rr}, scatter/@pre marker code/.append style={/tikz/mark size=\rr pt}]
+  table[x=portab2014, y=F1419] {\dados{regioes_sal1}};
+\addplot[scatter, only marks, mark=*, cg3, fill=cg3, fill opacity=0.55, draw opacity=0,
+  visualization depends on={\thisrow{raio} \as \rr}, scatter/@pre marker code/.append style={/tikz/mark size=\rr pt}]
+  table[x=portab2014, y=F1419] {\dados{regioes_sal2}};
+\addplot[scatter, only marks, mark=*, cg1, fill=cg1, fill opacity=0.6, draw opacity=0,
+  visualization depends on={\thisrow{raio} \as \rr}, scatter/@pre marker code/.append style={/tikz/mark size=\rr pt}]
+  table[x=portab2014, y=F1419] {\dados{regioes_sal3}};
+\legend{Lowest-wage third, Middle third, Highest-wage third}
+\nextgroupplot[ylabel={Employment change, 2014 to 2016 (\%)}, ymin=-25, ymax=10, ytick={-20,-10,0,10},
+  restrict y to domain=-25:10]
+\draw[fino] (axis cs:0.5,0) -- (axis cs:0.73,0);
+\addplot[scatter, only marks, mark=*, cg2, fill=cg2, fill opacity=0.55, draw opacity=0,
+  visualization depends on={\thisrow{raio} \as \rr}, scatter/@pre marker code/.append style={/tikz/mark size=\rr pt}]
+  table[x=portab2014, y=var1416] {\dados{regioes_sal1}};
+\addplot[scatter, only marks, mark=*, cg3, fill=cg3, fill opacity=0.55, draw opacity=0,
+  visualization depends on={\thisrow{raio} \as \rr}, scatter/@pre marker code/.append style={/tikz/mark size=\rr pt}]
+  table[x=portab2014, y=var1416] {\dados{regioes_sal2}};
+\addplot[scatter, only marks, mark=*, cg1, fill=cg1, fill opacity=0.6, draw opacity=0,
+  visualization depends on={\thisrow{raio} \as \rr}, scatter/@pre marker code/.append style={/tikz/mark size=\rr pt}]
+  table[x=portab2014, y=var1416] {\dados{regioes_sal3}};
+\end{groupplot}
+\node[anchor=north] at ([yshift=-1.3cm]$(group c1r1.south)!0.5!(group c2r1.south)$) {\pgfplotslegendfromname{legreg}};
+\end{tikzpicture}
+\end{document}

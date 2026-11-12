@@ -1,0 +1,29 @@
+\documentclass[11pt,border=2pt]{standalone}
+\input{estilo}
+\begin{document}
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={group size=3 by 1, horizontal sep=1.25cm},
+  width=5.6cm, height=5.4cm,
+  xmin=0.4, xmax=6.6, xtick={1,...,6},
+  xticklabels={2014,2015,2016,2019,2020,2021},
+  x tick label style={rotate=45, anchor=north east, inner sep=1pt},
+  y tick label style={/pgf/number format/fixed, /pgf/number format/precision=2,
+                      /pgf/number format/fixed zerofill},
+  ymin=-0.09, ymax=0.09, ytick={-0.08,-0.04,0,0.04,0.08},
+  every axis plot/.append style={only marks, mark=*, mark size=1.6pt},
+  error bars/y dir=both, error bars/y explicit,
+  error bars/error bar style={line width=0.5pt}, error bars/error mark options={rotate=90, mark size=2pt},
+]
+\nextgroupplot[title={Reemployment within 12 months}]
+\draw[fino] (axis cs:0.4,0) -- (axis cs:6.6,0);
+\addplot[cg1] table[x=pos, y=b_12m_w0, y error=ic_12m_w0] {\dados{coef}};
+\nextgroupplot[title={Reemployment hazard (Cox)}]
+\draw[fino] (axis cs:0.4,0) -- (axis cs:6.6,0);
+\addplot[cg1] table[x=pos, y=b_cox, y error=ic_cox] {\dados{coef}};
+\nextgroupplot[title={Change in log wage}]
+\draw[fino] (axis cs:0.4,0) -- (axis cs:6.6,0);
+\addplot[cg1] table[x=pos, y=b_sal_ef, y error=ic_sal_ef] {\dados{coef}};
+\end{groupplot}
+\end{tikzpicture}
+\end{document}

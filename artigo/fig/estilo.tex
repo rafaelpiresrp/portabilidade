@@ -1,0 +1,86 @@
+% Estilo comum das figuras. Cada figura e um arquivo standalone que carrega
+% este preambulo; a fonte e o corpo sao os do texto (Latin Modern, 11pt).
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepgfplotslibrary{groupplots}
+\usetikzlibrary{calc}
+\pgfplotsset{compat=1.17}
+
+\definecolor{cg1}{RGB}{27,54,93}     % alta portabilidade
+\definecolor{cg2}{RGB}{125,125,125}  % media
+\definecolor{cg3}{RGB}{192,86,33}    % baixa
+\definecolor{faixa}{RGB}{236,236,236}
+\colorlet{faixarec}{cg3!20}
+\colorlet{faixapan}{cg1!16}
+\definecolor{v1}{RGB}{166,64,20}
+\definecolor{v2}{RGB}{222,134,84}
+\definecolor{v3}{RGB}{245,208,180}
+\definecolor{v4}{RGB}{183,198,219}
+\definecolor{v5}{RGB}{52,88,138}
+\definecolor{c1}{RGB}{228,234,242}
+\definecolor{c2}{RGB}{183,198,219}
+\definecolor{c3}{RGB}{127,153,189}
+\definecolor{c4}{RGB}{69,106,154}
+\definecolor{c5}{RGB}{27,54,93}
+
+\pgfplotsset{
+  every axis/.append style={
+    font=\footnotesize,
+    axis x line*=bottom,
+    axis y line*=left,
+    axis line style={line width=0.4pt},
+    tick align=outside,
+    tick style={line width=0.4pt, black},
+    major tick length=2.5pt,
+    /pgf/number format/1000 sep={},
+    legend style={draw=none, fill=none, font=\footnotesize,
+                  legend cell align=left, /tikz/every even column/.append style={column sep=8pt}},
+    title style={font=\footnotesize, yshift=-3pt},
+    label style={font=\footnotesize},
+    clip=false,
+    scaled ticks=false,
+  },
+}
+\tikzset{
+  g1/.style={cg1, line width=0.95pt},
+  g2/.style={cg2, line width=0.8pt, densely dashed},
+  g3/.style={cg3, line width=0.95pt},
+  fino/.style={black, line width=0.3pt},
+  ufborda/.style={draw=black!75, line width=0.25pt, line join=round},
+  csem/.style={fill=black!6, draw=white, line width=0.12pt},
+  v1/.style={fill=v1, draw=white, line width=0.12pt, even odd rule},
+  v2/.style={fill=v2, draw=white, line width=0.12pt, even odd rule},
+  v3/.style={fill=v3, draw=white, line width=0.12pt, even odd rule},
+  v4/.style={fill=v4, draw=white, line width=0.12pt, even odd rule},
+  v5/.style={fill=v5, draw=white, line width=0.12pt, even odd rule},
+  c1/.style={fill=c1, draw=white, line width=0.12pt, even odd rule},
+  c2/.style={fill=c2, draw=white, line width=0.12pt, even odd rule},
+  c3/.style={fill=c3, draw=white, line width=0.12pt, even odd rule},
+  c4/.style={fill=c4, draw=white, line width=0.12pt, even odd rule},
+  c5/.style={fill=c5, draw=white, line width=0.12pt, even odd rule},
+}
+% faixas coloridas do grafico de contexto
+\newcommand{\dados}[1]{dados/#1.dat}
+
+% faixas das duas crises. Em series anuais o ponto do ano t fica em t.
+\newcommand{\crises}[2]{%
+  \fill[faixa] (axis cs:2014.5,#1) rectangle (axis cs:2016.5,#2);
+  \fill[faixa] (axis cs:2019.5,#1) rectangle (axis cs:2021.5,#2);}
+% legenda de classes dos mapas: \legmapa{nome}{prefixo de cor}{x inicial}{passo}
+\newcommand{\legmapa}[4]{%
+  \foreach \l [count=\i from 0] in {a,b,c,d,e} {
+    \pgfmathtruncatemacro{\n}{\i+1}
+    \fill[#2\n, draw=none] (#3+\i*#4,-0.45) rectangle +(0.32,0.2);
+    \node[font=\scriptsize, anchor=west] at (#3+0.35+\i*#4,-0.35) {\csname leg#1\l\endcsname};
+  }}
+
+% legenda vertical no canto inferior esquerdo do mapa: \legmapav{nome}{prefixo de cor}
+\newcommand{\legmapav}[2]{%
+  \foreach \l [count=\i from 0] in {e,d,c,b,a} {
+    \pgfmathtruncatemacro{\n}{5-\i}
+    \fill[#2\n, draw=none] (0.05,2.25-\i*0.36) rectangle +(0.32,0.22);
+    \node[font=\scriptsize, anchor=west] at (0.42,2.36-\i*0.36) {\csname leg#1\l\endcsname};
+  }}

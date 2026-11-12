@@ -1,0 +1,22 @@
+\documentclass[11pt,border=2pt]{standalone}
+\input{estilo}
+\input{dados/mapa_legendas}
+\begin{document}
+\begin{tikzpicture}
+\begin{scope}
+  \input{dados/mapa_emp}
+  \input{dados/mapa_ufs}
+  \node[font=\footnotesize] at (3.7,7.95) {Private formal employment (thousand jobs)};
+  
+  \legmapav{emp}{c}
+\end{scope}
+\begin{scope}[xshift=8.05cm]
+  \input{dados/mapa_sal}
+  \input{dados/mapa_ufs}
+  \node[font=\footnotesize] at (3.7,7.95) {Average wage (minimum wages)};
+  
+  \legmapav{sal}{c}
+\end{scope}
+
+\end{tikzpicture}
+\end{document}

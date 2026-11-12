@@ -1,0 +1,21 @@
+Bloco,corte,Demitidos,ret_6m_1,ret_6m_3,Dif_6m_G1_G3,ret_12m_1,ret_12m_3,Dif_12m_G1_G3,outro_12m_1,outro_12m_3,Dif_Outro12m
+A_Todas_Regioes,0_Todos_Demitidos,53356141,29.01,28.1,0.91,49.51,50.21,-0.7,35.02,23.21,11.81
+A_Todas_Regioes,1_Queda_Relativa_>=5pp,12267249,28.4,26,2.4,48.61,47.52,1.09,35.95,23.33,12.62
+A_Todas_Regioes,2_Queda_Relativa_>=10pp,6392108,28.39,25.44,2.95,48.46,47.16,1.3,35.52,24.4,11.12
+A_Todas_Regioes,3_Queda_Relativa_>=15pp,3508283,28.68,24.46,4.22,48.41,46.43,1.98,35.27,26.43,8.84
+A_Todas_Regioes,4_Queda_Relativa_>=20pp,1942483,28.46,24.26,4.2,48.04,45.36,2.68,35.49,27.34,8.15
+B_Regiao_Crescendo (Choque Idio Puro),0_Todos_Demitidos,24907824,31.28,29.78,1.5,51.69,51.99,-0.3,36.79,24.6,12.19
+B_Regiao_Crescendo (Choque Idio Puro),1_Queda_Relativa_>=5pp,5710183,30.36,27.63,2.73,50.52,49.27,1.25,37.01,23.36,13.65
+B_Regiao_Crescendo (Choque Idio Puro),2_Queda_Relativa_>=10pp,2490890,30.66,26.93,3.73,50.82,48.51,2.31,37.11,25.27,11.84
+B_Regiao_Crescendo (Choque Idio Puro),3_Queda_Relativa_>=15pp,1430694,31.13,26.36,4.77,51.08,48.18,2.9,37.15,27.2,9.95
+B_Regiao_Crescendo (Choque Idio Puro),4_Queda_Relativa_>=20pp,839879,30.72,25.12,5.6,50.58,46.21,4.37,37.09,27.69,9.4
+C_Sem_Seguro_Desemprego (<6m) + Regiao_Crescendo,0_Todos_Demitidos,4976100,42.16,40.22,1.94,58.93,57.86,1.07,45.33,30.72,14.61
+C_Sem_Seguro_Desemprego (<6m) + Regiao_Crescendo,1_Queda_Relativa_>=5pp,1123485,40.63,36.39,4.24,57.69,55.44,2.25,44.67,28.58,16.09
+C_Sem_Seguro_Desemprego (<6m) + Regiao_Crescendo,2_Queda_Relativa_>=10pp,541505,39.59,34.34,5.25,56.79,54.02,2.77,43.45,30.09,13.36
+C_Sem_Seguro_Desemprego (<6m) + Regiao_Crescendo,3_Queda_Relativa_>=15pp,326029,39.53,33.03,6.5,56.83,53.01,3.82,42.96,31.48,11.48
+C_Sem_Seguro_Desemprego (<6m) + Regiao_Crescendo,4_Queda_Relativa_>=20pp,194664,38.44,31.59,6.85,55.56,50.86,4.7,42.4,32,10.4
+D_Mesmo_Salario_Inicial (<=1.25 SM) + Regiao_Crescendo,0_Todos_Demitidos,8671566,28.85,27.48,1.37,48.73,49.23,-0.5,35.35,24.3,11.05
+D_Mesmo_Salario_Inicial (<=1.25 SM) + Regiao_Crescendo,1_Queda_Relativa_>=5pp,2060230,27.19,25.09,2.1,46.68,46.71,-0.03,34.57,22.58,11.99
+D_Mesmo_Salario_Inicial (<=1.25 SM) + Regiao_Crescendo,2_Queda_Relativa_>=10pp,883709,25.98,24.24,1.74,45.28,45.76,-0.48,34.04,24.83,9.21
+D_Mesmo_Salario_Inicial (<=1.25 SM) + Regiao_Crescendo,3_Queda_Relativa_>=15pp,517472,25.8,23.82,1.98,44.61,45.46,-0.85,33.89,26.48,7.41
+D_Mesmo_Salario_Inicial (<=1.25 SM) + Regiao_Crescendo,4_Queda_Relativa_>=20pp,301968,25.24,22.67,2.57,43.73,43.89,-0.16,33.16,26.83,6.33

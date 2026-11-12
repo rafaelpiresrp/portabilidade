@@ -1,0 +1,22 @@
+\documentclass[11pt,border=2pt]{standalone}
+\input{estilo}
+\input{dados/mapa_legendas}
+\begin{document}
+\begin{tikzpicture}
+\begin{scope}
+  \input{dados/mapa_flex_rec}
+  \input{dados/mapa_ufs}
+  \node[font=\footnotesize] at (3.7,7.95) {2014 to 2019};
+  
+  \legmapav{flex}{c}
+\end{scope}
+\begin{scope}[xshift=8.05cm]
+  \input{dados/mapa_flex_pan}
+  \input{dados/mapa_ufs}
+  \node[font=\footnotesize] at (3.7,7.95) {2019 to 2022};
+  
+  
+\end{scope}
+
+\end{tikzpicture}
+\end{document}

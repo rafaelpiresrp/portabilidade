@@ -1,0 +1,25 @@
+\documentclass[11pt,border=2pt]{standalone}
+\input{estilo}
+\definecolor{d1}{RGB}{27,54,93}
+\definecolor{d2}{RGB}{192,86,33}
+\definecolor{d3}{RGB}{150,150,150}
+\definecolor{d4}{RGB}{218,218,218}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+  width=12cm, height=4.6cm, xbar stacked, bar width=13pt,
+  xmin=0, xmax=100, xtick={0,20,40,60,80,100},
+  ymin=0.4, ymax=3.6, ytick={1,2,3}, yticklabels={High (G1), Medium (G2), Low (G3)},
+  y dir=reverse, y axis line style={draw=none}, ytick style={draw=none},
+  xlabel={Share of reemployed workers (\%)},
+  legend style={at={(0,-0.38)}, anchor=north west, legend columns=2}, area legend,
+]
+\addplot[fill=d1, draw=white, line width=0.4pt] table[y=grupo, x=mesma_mesmo] {\dados{destino}};
+\addplot[fill=d2, draw=white, line width=0.4pt] table[y=grupo, x=mesma_outro] {\dados{destino}};
+\addplot[fill=d3, draw=white, line width=0.4pt] table[y=grupo, x=familia] {\dados{destino}};
+\addplot[fill=d4, draw=white, line width=0.4pt] table[y=grupo, x=outra] {\dados{destino}};
+\legend{{Same occupation, same sector}, {Same occupation, other sector},
+        {Other occupation, same family}, {Other occupational family}}
+\end{axis}
+\end{tikzpicture}
+\end{document}

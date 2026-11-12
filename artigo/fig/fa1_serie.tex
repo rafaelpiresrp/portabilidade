@@ -1,0 +1,28 @@
+\documentclass[11pt,border=2pt]{standalone}
+\input{estilo}
+\begin{document}
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={group size=2 by 1, horizontal sep=1.7cm},
+  width=7.6cm, height=5.8cm,
+  xmin=2009, xmax=2023, xtick={2009,2011,...,2023},
+  y tick label style={/pgf/number format/fixed, /pgf/number format/precision=2,
+                      /pgf/number format/fixed zerofill},
+]
+\nextgroupplot[title={Average index}, ymin=0.645, ymax=0.68, ytick={0.65,0.66,0.67,0.68},
+  legend style={at={(0,-0.17)}, anchor=north west, legend columns=1}]
+\crises{0.645}{0.68}
+\addplot[g1] table[x=ano, y=anual] {\dados{serie}};
+\addplot[g2] table[x=ano, y=fixo] {\dados{serie}};
+\legend{Index of each year, Occupation index fixed at 2010}
+\nextgroupplot[title={Cumulative change since 2010}, ymin=-0.025, ymax=0.01, ytick={-0.02,-0.01,0,0.01},
+  legend style={at={(0,-0.17)}, anchor=north west, legend columns=1}]
+\crises{-0.025}{0.01}
+\draw[fino] (axis cs:2009,0) -- (axis cs:2023,0);
+\addplot[black, line width=0.95pt] table[x=ano, y=total] {\dados{serie}};
+\addplot[g1] table[x=ano, y=composicao] {\dados{serie}};
+\addplot[g3] table[x=ano, y=dentro] {\dados{serie}};
+\legend{Total, Composition across occupations, Within occupations}
+\end{groupplot}
+\end{tikzpicture}
+\end{document}

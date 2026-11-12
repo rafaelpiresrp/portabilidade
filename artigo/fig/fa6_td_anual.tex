@@ -1,0 +1,20 @@
+\documentclass[11pt,border=2pt]{standalone}
+\input{estilo}
+\begin{document}
+\begin{tikzpicture}
+\begin{groupplot}[
+  group style={group size=2 by 1, horizontal sep=1.7cm},
+  width=7.6cm, height=5.4cm,
+  xmin=2010, xmax=2023, xtick={2010,2012,...,2022},
+  y tick label style={/pgf/number format/fixed, /pgf/number format/precision=2,
+                      /pgf/number format/fixed zerofill},
+]
+\nextgroupplot[title={Turbulence ($T$)}, ymin=0.02, ymax=0.05, ytick={0.02,0.03,0.04,0.05}]
+\crises{0.02}{0.05}
+\addplot[g1, mark=*, mark size=1.2pt] table[x=ano, y=T] {\dados{td_anual}};
+\nextgroupplot[title={Mismatch ($D$)}, ymin=0.01, ymax=0.045, ytick={0.01,0.02,0.03,0.04}]
+\crises{0.01}{0.045}
+\addplot[g1, mark=*, mark size=1.2pt] table[x=ano, y=D] {\dados{td_anual}};
+\end{groupplot}
+\end{tikzpicture}
+\end{document}

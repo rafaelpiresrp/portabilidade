@@ -1,0 +1,22 @@
+# RAIS microdata and worker-level files: never commit
+duracao_*
+*pis*
+*cpf*
+*.parquet
+*.fst
+
+# R
+.Rhistory
+.RData
+.Rproj.user/
+
+# Python
+__pycache__/
+
+# LaTeX
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.fls
+*.fdb_latexmk

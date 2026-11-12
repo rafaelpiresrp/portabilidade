@@ -1,0 +1,20 @@
+\documentclass[11pt,border=2pt]{standalone}
+\input{estilo}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[
+  width=12cm, height=6cm, ybar, bar width=5.4pt,
+  ymin=0, ymax=17, ytick={0,5,10,15},
+  xmin=0, xmax=1, xtick={0,0.2,0.4,0.6,0.8,1},
+  xlabel={Occupational portability index (2010)},
+  ylabel={Share of employment (\%)},
+]
+\addplot[fill=cg1!55, draw=none] table[x=x, y=pct] {\dados{dist2010}};
+\draw[fino, densely dashed] (axis cs:0.5724,0) -- (axis cs:0.5724,16.2);
+\draw[fino, densely dashed] (axis cs:0.8674,0) -- (axis cs:0.8674,16.2);
+\node[font=\footnotesize] at (axis cs:0.286,16) {Low (G3)};
+\node[font=\footnotesize] at (axis cs:0.72,16) {Medium (G2)};
+\node[font=\footnotesize] at (axis cs:0.94,16) {High (G1)};
+\end{axis}
+\end{tikzpicture}
+\end{document}
