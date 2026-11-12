@@ -37,6 +37,10 @@
 \renewcommand{\citep}[1]{{\color{citeblue}\citeporig{#1}}}
 \renewcommand{\citealt}[1]{{\color{citeblue}\citealtorig{#1}}}
 
+% cada secao comeca em pagina nova
+\let\secaoorig\section
+\renewcommand{\section}{\clearpage\secaoorig}
+
 % figura com nota justificada na largura da propria figura
 \newsavebox{\caixafig}
 \newcommand{\figura}[2]{%
@@ -49,7 +53,7 @@
 \setlength{\parindent}{1.4em}
 \emergencystretch=1.5em
 
-\renewcommand{\refname}{\textcolor{citeblue}{References}}
+\renewcommand{\refname}{References}
 
 \begin{document}
 
@@ -92,7 +96,7 @@ Which mechanism operates depends on the type of shock. In an aggregate contracti
 
 Telling the two cases apart in the data is hard, and that difficulty is at the root of the debate between \citet{lilien1982} and \citet{abraham1986}. For \citet{lilien1982}, shifts in the sectoral composition of labor demand explain an important part of unemployment over the cycle. Because moving between industries takes search time and destroys specific skills, greater dispersion in sectoral growth rates would signal more reallocation effort and therefore more unemployment. \citet{abraham1986} showed that a purely aggregate shock generates the same correlation between sectoral dispersion and unemployment, provided sectors differ in their sensitivity to the cycle. If construction and manufacturing respond more to credit and interest rates than essential services do, an aggregate recession widens the gap between sectoral growth rates even when almost every activity is shedding jobs. Measured in aggregate data, the variance across sectors therefore cannot separate an economy that needs to reallocate workers from one in which nobody is hiring.
 
-A second limitation is that studies of allocative flexibility treat workers as homogeneous when they change sectors \citep{layard1991, barros1997ppp, staduto2010}, whereas a vacancy in another activity shortens unemployment only for those who can use their skills outside the industry they came from. Much of the human capital accumulated on the job is specific to the occupation and to the tasks the worker performs \citep{poletaev2008, kambourov2009, gathmann2010}, and switching occupations while unemployed means losing part of that learning and accepting a substantially lower wage \citep{longhi2013, wiczer2015, carrillotudela2023}. Dismissed workers therefore look first for a job in their own occupation. Hence the interest in \emph{occupational portability}, which \citet{darougheh2022, darougheh2024} calls \emph{broadness} and measures by the dispersion of each occupation's employment across the sectors of the economy. Workers in occupations found in many activities, such as office clerks, administrative assistants, stock clerks or production line feeders, can change sectors without changing occupations when their industry shrinks. Workers in occupations concentrated in a few industries, such as retail salespeople, cashiers, gas station attendants or nursing technicians, depend on the recovery of the sector they came from.
+A second limitation is that studies of allocative flexibility treat workers as homogeneous when they change sectors \citep{layard1991, barros1997ppp, staduto2010}, whereas a vacancy in another activity shortens unemployment only for those who can use their skills outside the industry they came from. Much of the human capital accumulated on the job is specific to the occupation and to the tasks the worker performs \citep{poletaev2008, kambourov2009, gathmann2010}, and switching occupations while unemployed means losing part of that learning and accepting a substantially lower wage \citep{longhi2013, wiczer2015, carrillotudela2023}. Dismissed workers therefore look first for a job in their own occupation. Hence the interest in the measure that \citet{darougheh2022, darougheh2024} calls \emph{broadness}, the dispersion of each occupation's employment across the sectors of the economy. We use the term \emph{occupational portability} because, when an occupation is present in many sectors, its skills are portable from one sector to another. Workers in occupations found in many activities, such as office clerks, administrative assistants, stock clerks or production line feeders, can change sectors without changing occupations when their industry shrinks. Workers in occupations concentrated in a few industries, such as retail salespeople, cashiers, gas station attendants or nursing technicians, depend on the recovery of the sector they came from.
 
 Brazil between 2009 and 2023 is a good setting in which to bring the occupational portability of \citet{darougheh2024} together with the discussion in \citet{lilien1982} and \citet{abraham1986} on the nature of shocks. The period saw structural change, including the declining weight of manufacturing \citep{rodrik2016}, the regional deconcentration of production \citep{saboia2013} and the growth of services \citep{jacinto2015}, and it saw two crises with different sectoral profiles \citep{corseuil2020}. The recession of 2015 and 2016 was a broad aggregate shock. Fiscal and credit tightening reduced employment at the same time in manufacturing, construction, retail and services, which left little room for adjustment through reallocation across sectors. The Covid-19 pandemic, in 2020 and 2021, hit sectors very unevenly. In-person services, accommodation and food services fell sharply, while agribusiness, health, logistics, information technology and administrative services that could move to remote work maintained or increased hiring \citep{corseuil2020}.
 
@@ -118,7 +122,7 @@ Under an idiosyncratic shock, which contracts some sectors and expands others, t
 
 Moving from the aggregate analysis to the trajectory of the individual worker requires taking the specificity of human capital into account. \citet{becker1962} and \citet{topel1991} divide skills into general and firm-specific capital. Later empirical work showed that much of the wage loss after dismissal comes from changing sectors \citep{neal1995, parent2000} and, even more, from changing occupations \citep{kambourov2009, sullivan2010}. In the estimates of \citet{kambourov2009}, returns to firm and industry tenure decline once occupational experience is controlled for, which indicates that productive skills follow the occupation. In the task-based approach of \citet{autor2003}, \citet{poletaev2008}, \citet{gathmann2010}, \citet{autor2013} and \citet{deming2017}, each occupation bundles a set of cognitive, social and motor tasks, and the wage loss at reemployment is larger the more the tasks of the new occupation differ from those of the old one. For Brazil, \citet{maciente2013}, \citet{maciente2019} and \citet{junior2021} matched the skill requirements in O*NET to the Brazilian Classification of Occupations (CBO) in RAIS. Formal employment has a strong presence of operational occupations intensive in motor tasks, but cognitive and interpersonal tasks have gained share and make it easier to adapt to changes in production.
 
-Because switching occupations out of unemployment usually means occupational and wage downgrading \citep{longhi2013, wiczer2015, carrillotudela2023}, dismissed workers try to keep their occupation while looking for jobs in other sectors. This behavior is the basis of the occupational breadth or portability indicator (\emph{broadness}) of \citet{darougheh2022, darougheh2024}, computed as the complement of the Herfindahl-Hirschman index of the sectoral distribution of each occupation's employment. In the model of \citet{darougheh2024}, being in a portable occupation has two opposing effects when a negative sectoral shock hits. Through the \emph{direct reallocation effect}, a worker released from a declining sector competes for jobs in the same occupation in sectors that are still hiring and leaves unemployment sooner than specialized coworkers dismissed from the same firm. Through the \emph{reallocation externality}, or congestion, the arrival of these workers increases competition for the jobs of that occupation in the destination sectors. For this reason, according to \citet{darougheh2024}, crises concentrated in specialized occupations raise mismatch in the cross-section of workers by more, although congestion makes the response of aggregate unemployment similar across different recessions.
+Because switching occupations out of unemployment usually means occupational and wage downgrading \citep{longhi2013, wiczer2015, carrillotudela2023}, dismissed workers try to keep their occupation while looking for jobs in other sectors. This behavior is the basis of the broadness indicator of \citet{darougheh2022, darougheh2024}, which we call portability, computed as the complement of the Herfindahl-Hirschman index of the sectoral distribution of each occupation's employment. In the model of \citet{darougheh2024}, being in a portable occupation has two opposing effects when a negative sectoral shock hits. Through the \emph{direct reallocation effect}, a worker released from a declining sector competes for jobs in the same occupation in sectors that are still hiring and leaves unemployment sooner than specialized coworkers dismissed from the same firm. Through the \emph{reallocation externality}, or congestion, the arrival of these workers increases competition for the jobs of that occupation in the destination sectors. For this reason, according to \citet{darougheh2024}, crises concentrated in specialized occupations raise mismatch in the cross-section of workers by more, although congestion makes the response of aggregate unemployment similar across different recessions.
 
 Occupational portability does not track schooling, and there are low-portability occupations at both ends: college-educated professionals in careers specific to health or education on one side, and retail salespeople, gas station attendants and city bus drivers on the other. Administrative and operational jobs requiring secondary or basic schooling, such as office clerks, administrative assistants, receptionists, stock clerks and production line feeders, are highly portable because they perform activities needed in almost every industry \citep{gathmann2010, darougheh2024}. When a worker in a specialized occupation loses a job because the sector contracts, the lack of equivalent vacancies in other industries often leads to accepting positions that require less schooling, which corresponds to the overeducation studied by \citet{sicherman1991} and documented for Brazil by \citet{marioni2021}.
 
@@ -456,16 +460,16 @@ In reentry wages, workers dismissed from portable occupations lose 5 to 6 log po
 Among the limitations of the paper, the first is that RAIS records only formal employment, so those who do not return may be in informal work, self-employment, the public sector or out of the labor force. The portability index is national, while workers look for jobs in their own region. Occupations are not randomly assigned \citep{roy1951}, and workers in portable occupations may differ from the others in characteristics we do not observe. Finally, the comparison under idiosyncratic shocks is of means between groups, uses arbitrary cutoffs and depends on the dismissals of a few years.
 
 \FloatBarrier
-{\singlespacing\setlength{\bibsep}{0pt}\setlength{\parskip}{0pt}
+{\singlespacing\setlength{\bibsep}{0pt}\setlength{\parskip}{0pt}\hypersetup{urlcolor=black}
 \begin{thebibliography}{99}
 \scriptsize
-\color{citeblue}
+% (sem cor: a lista de referencias fica em preto)
 
 \bibitem[Abraham and Katz(1986)]{abraham1986}
 ABRAHAM, K.~G.; KATZ, L.~F. (1986). Cyclical unemployment: sectoral shifts or aggregate disturbances? \textit{Journal of Political Economy}, 94(3), 507--522. [\href{https://dash.harvard.edu/bitstreams/7312037c-839f-6bd4-e053-0100007fdf3b/download}{Harvard DASH}] [\href{https://doi.org/10.1086/261387}{DOI}]
 
 \bibitem[Amadeo et al.(1994)]{amadeo1994}
-AMADEO, E.~J.; PAES DE BARROS, R.; CAMARGO, J.~M.; MENDON\c{C}A, R.~S.~P.; PERO, V.; URANI, A. (1994). \textit{A natureza e o funcionamento do mercado de trabalho brasileiro desde 1980}. Rio de Janeiro: IPEA (TD no.~353).
+AMADEO, E.~J.; CAMARGO, J.~M.; GONZAGA, G.; BARROS, R.~P.; MENDON\c{C}A, R.~S.~P. (1994). \textit{A natureza e o funcionamento do mercado de trabalho brasileiro desde 1980}. Rio de Janeiro: IPEA (TD no.~353). [\href{https://repositorio.ipea.gov.br/handle/11058/2464}{IPEA repository}]
 
 \bibitem[Autor(2013)]{autor2013}
 AUTOR, D.~H. (2013). The ``task approach'' to labor markets: an overview. \textit{Journal for Labour Market Research}, 46(3), 185--199. [\href{https://doi.org/10.1007/s12651-013-0128-z}{SpringerOpen}]
@@ -473,11 +477,11 @@ AUTOR, D.~H. (2013). The ``task approach'' to labor markets: an overview. \texti
 \bibitem[Autor, Levy and Murnane(2003)]{autor2003}
 AUTOR, D.~H.; LEVY, F.; MURNANE, R.~J. (2003). The skill content of recent technological change: an empirical exploration. \textit{Quarterly Journal of Economics}, 118(4), 1279--1333. [\href{https://www.nber.org/papers/w8337}{NBER WP 8337}] [\href{https://doi.org/10.1162/003355303322552801}{DOI}]
 
-\bibitem[Barros, Camargo and Mendon\c{c}a(1997)]{barros1997ppp}
-BARROS, R.~P.; CAMARGO, J.~M.; MENDON\c{C}A, R.~S.~P. (1997). Uma avalia\c{c}\~ao emp\'irica do grau de flexibilidade alocativa do mercado de trabalho brasileiro. \textit{Planejamento e Pol\'iticas P\'ublicas (PPP)}, no.~15, 159--194. [\href{https://www.ipea.gov.br/ppp/index.php/PPP/article/view/124}{PPP/IPEA}] [\href{https://repositorio.ipea.gov.br/server/api/core/bitstreams/be0d9cd4-257b-4159-9caf-c88f357d3458/content}{PDF IPEA}]
+\bibitem[Barros et al.(1997)]{barros1997ppp}
+BARROS, R.~P.; CRUZ, L.~E.~M.; FOGUEL, M.~N.; MENDON\c{C}A, R.~S.~P. (1997). Uma avalia\c{c}\~ao emp\'irica do grau de flexibilidade alocativa do mercado de trabalho brasileiro. \textit{Planejamento e Pol\'iticas P\'ublicas}, no.~15, 98--130. [\href{https://www.ipea.gov.br/ppp/index.php/PPP/article/view/124}{IPEA}]
 
 \bibitem[Barros, Corseuil and Gonzaga(1999)]{barros2000}
-BARROS, R.~P.; CORSEUIL, C.~H.; GONZAGA, G. (1999). \textit{Labor market regulations and the demand for labor in Brazil}. Rio de Janeiro: IPEA (TD no.~656). [\href{https://repositorio.ipea.gov.br/items/ddb14d60-4754-4c0e-8ca5-6bf33582c604}{IPEA repository}]
+BARROS, R.~P.; CORSEUIL, C.~H.; GONZAGA, G. (1999). \textit{Labor market regulations and the demand for labor in Brazil}. Rio de Janeiro: PUC-Rio, Department of Economics (TD no.~398). [\href{https://ideas.repec.org/p/rio/texdis/398.html}{RePEc}]
 
 \bibitem[Barros and Mendon\c{c}a(1997)]{barros1997td}
 BARROS, R.~P.; MENDON\c{C}A, R.~S.~P. (1997). \textit{Flexibilidade do mercado de trabalho brasileiro: uma avalia\c{c}\~ao emp\'irica}. Rio de Janeiro: IPEA (TD no.~452). [\href{https://repositorio.ipea.gov.br/items/cfe45716-d907-4631-9c88-462cd6be302d}{IPEA repository}]
@@ -503,8 +507,8 @@ CORSEUIL, C.~H.; FRANCA, M.; PADILHA, G.; RAMOS, L.; RUSSO, F. (2021). \textit{C
 \bibitem[Couch and Placzek(2010)]{couch2010}
 COUCH, K.~A.; PLACZEK, D.~W. (2010). Earnings losses of displaced workers revisited. \textit{American Economic Review}, 100(1), 572--589. [\href{https://pubs.aeaweb.org/doi/abs/10.1257/aer.100.1.572}{AEA}]
 
-\bibitem[Darougheh(2022)]{darougheh2022}
-DAROUGHEH, S. (2022). \textit{Occupation-industry mismatch in the cross-section and the aggregate}. Copenhagen: Danmarks Nationalbank (WP no.~147r). [\href{https://www.nationalbanken.dk/media/gzrhnpy4/dn-wp147r.pdf}{Danmarks Nationalbank PDF}]
+\bibitem[Darougheh(2021)]{darougheh2022}
+DAROUGHEH, S. (2021). \textit{Occupation-industry mismatch in the cross-section and the aggregate}. Copenhagen: Danmarks Nationalbank (WP no.~147, updated version). [\href{https://www.nationalbanken.dk/en/news-and-knowledge/publications-and-speeches/archive-publications/2019/working-paper-occupation-industry-mismatch-in-the-cross-section-and-the-aggregate}{Danmarks Nationalbank}]
 
 \bibitem[Darougheh(2024)]{darougheh2024}
 DAROUGHEH, S. (2024). Occupation-industry mismatch in the cross section and the aggregate. \textit{Journal of Political Economy Macroeconomics}, 2(3), 375--408. [\href{https://www.journals.uchicago.edu/doi/10.1086/731536}{JPE Macroeconomics}]
@@ -612,7 +616,7 @@ SHAPIRO, C.; STIGLITZ, J.~E. (1984). Equilibrium unemployment as a worker discip
 SICHERMAN, N. (1991). ``Overeducation'' in the labor market. \textit{Journal of Labor Economics}, 9(2), 101--122.
 
 \bibitem[Staduto and Schio(2010)]{staduto2010}
-STADUTO, J.~A.~R.; SCHIO, T.~A. (2010). Flexibilidade alocativa do mercado de trabalho brasileiro: uma avalia\c{c}\~ao emp\'irica dos estados e das regi\~oes metropolitanas e n\~ao-metropolitanas. \textit{Revista Brasileira de Estudos Regionais e Urbanos (RBERU)}, 4(2), 51--66.
+STADUTO, J.~A.~R.; SCHIO, T.~A. (2010). Flexibilidade alocativa do mercado de trabalho brasileiro: uma avalia\c{c}\~ao emp\'irica dos estados e das regi\~oes metropolitanas e n\~ao-metropolitanas. \textit{Revista Brasileira de Estudos Regionais e Urbanos (RBERU)}, 4, 51--66.
 
 \bibitem[Sullivan(2010)]{sullivan2010}
 SULLIVAN, P. (2010). Empirical evidence on occupation and industry specific human capital. \textit{Labour Economics}, 17(3), 567--580. [\href{https://pmc.ncbi.nlm.nih.gov/articles/PMC2879094/}{PMC Open Access}]
