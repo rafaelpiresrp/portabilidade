@@ -44,6 +44,7 @@ python3 scripts/prepara_dados.py ../saidas/dados fig/dados        # series for t
 python3 scripts/gera_mapas.py ../saidas/dados fig/dados           # maps, drawn in TikZ
 python3 scripts/gera_tabelas.py ../saidas/dados ../saidas/tabelas tab
 python3 scripts/traduz_tabelas.py tab                             # English labels and number format
+python3 scripts/gera_escada_regressao.py ../saidas/dados tab fig/dados   # ladder regressions (07 to 09)
 bash scripts/compila_figuras.sh                                   # fig/*.tex -> fig/*.pdf
 pdflatex portabilidade.tex                                        # three times
 ```
