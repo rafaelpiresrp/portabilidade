@@ -27,6 +27,7 @@ The paper uses the identified microdata of the Relação Anual de Informações 
 | `04_tabelas.R` | Linear probability, Cox and wage-change regressions, and tables | `t12_coeficientes.csv`, `saidas/tabelas/` |
 | `05_figuras.R` | Figures in ggplot2 (the figures of the paper are built in `artigo/`) | `saidas/figuras/` |
 | `06_choque_idiossincratico_critico.R` | Reemployment by relative decline of the origin sector (leave-one-out) and reweighting by wage and tenure | `escada_*.csv`, `km_choque_idiossincratico_comparado.csv` |
+| `07_escada_regressao.R` | Regression version of the ladder in `06`: G1 minus G3 gap at each rung with the controls and fixed effects of Equation (1) | `escada_regressao.csv` |
 
 To run them, set `RAIZ` (this folder) and `DIR_CSV` (the RAIS files) in `config.R` and run the scripts in order from the repository root, for example `Rscript R/01_broadness.R`. Packages: `data.table`, `readxl`, `survival`, `fixest`, and `ggplot2`, `sf` and `geobr` for `05_figuras.R`.
 
