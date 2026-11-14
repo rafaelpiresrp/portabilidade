@@ -29,6 +29,7 @@ The paper uses the identified microdata of the Relação Anual de Informações 
 | `06_choque_idiossincratico_critico.R` | Reemployment by relative decline of the origin sector (leave-one-out) and reweighting by wage and tenure | `escada_*.csv`, `km_choque_idiossincratico_comparado.csv` |
 | `07_escada_regressao.R` | Regression version of the ladder in `06`: G1 minus G3 gap at each rung with the controls and fixed effects of Equation (1) | `escada_regressao.csv` |
 | `08_escada_meses.R` | G1 minus G3 gap in the share reemployed by each month after dismissal (1 to 24), raw and with the controls of `07` | `escada_meses.csv` |
+| `09_escada_decomposicao.R` | Ladder gap at a relative decline of 10 points or more adding one control or fixed effect at a time, and interaction of G1 with the decline bands in the full sample | `escada_decomposicao.csv`, `escada_interacao.csv` |
 
 To run them, set `RAIZ` (this folder) and `DIR_CSV` (the RAIS files) in `config.R` and run the scripts in order from the repository root, for example `Rscript R/01_broadness.R`. Packages: `data.table`, `readxl`, `survival`, `fixest`, and `ggplot2`, `sf` and `geobr` for `05_figuras.R`.
 
